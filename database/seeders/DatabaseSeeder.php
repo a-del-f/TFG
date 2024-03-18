@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Jobs;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,6 +21,17 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'password' => bcrypt('holamundo1234')
         ]);
-
+        Jobs::create([
+            'name'=>'Super Admin'
+        ]);
+        Jobs::create([
+            'name'=>'Admin'
+        ]);
+        Jobs::create([
+            'name'=>'Technician'
+        ]);
+        Jobs::create([
+            'name'=>'User'
+        ]);
     }
 }
