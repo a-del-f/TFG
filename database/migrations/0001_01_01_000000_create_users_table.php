@@ -17,12 +17,12 @@ return new class extends Migration
             $table->string("surname")->nullable();
             $table->string('email')->unique(); $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string("job")->nullable();
+            $table->unsignedBigInteger("job");
             $table->string("Departaments")->nullable();
 
             $table->rememberToken();
             $table->timestamps();
-
+            $table->foreign("job")->references("id")->on("jobs");
 
         });
 
