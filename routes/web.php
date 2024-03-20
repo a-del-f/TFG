@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use DebugBar\DebugBar;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,7 +9,22 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+
+    dump(auth()->user()->job);
+    \Barryvdh\Debugbar\Facades\Debugbar::info(auth()->user()->job);
+$job=auth()->user()->job==1;
+    if( $job==1){
+        return view('super-admin');
+    }elseif ($job==2){
+        return view('admin');
+    }elseif ($job==3){
+        return view('tech');
+
+    }
+    else {
+
+        return view('dashboard');
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/admin', function () {
