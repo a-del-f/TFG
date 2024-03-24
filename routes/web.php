@@ -4,7 +4,6 @@ use App\Http\Controllers\ProfileController;
 use DebugBar\DebugBar;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DepartmentController;
 Route::get('/', function () {
     return view('auth/login');
 });
