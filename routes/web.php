@@ -15,6 +15,7 @@ Route::get('/dashboard', function () {
 
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('incidencies',[]);
 
 Route::middleware('auth')->group(function () {
 
