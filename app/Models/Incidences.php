@@ -2,25 +2,18 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Jobs extends Authenticatable
+// Importa la clase Model
+
+class Incidences extends Authenticatable // Extiende la clase Model
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = ['id',
+    protected $fillable = [
+        'id',
         'name',
-
     ];
-
-
-
 }

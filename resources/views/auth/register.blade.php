@@ -42,11 +42,10 @@
             <x-input-label for="job_selection" :value="__('Selecciona una función')" />
 
             <select id="job_selection" class="block mt-1 w-full"
-                          type="password"
-                          name="job_selection" required >
+                          name="job" required >
                 <option value="" disabled selected>Seleccionar funcion</option>
                 @for ( $i=1;$i<count($functions);$i++ )
-                    <option value="{{ $functions[$i]->id }}">{{ $functions[$i]->name }}</option>
+                    <option value="{{ intval($functions[$i]->id) }}">{{ $functions[$i]->name }}</option>
                 @endfor
             </select>
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
