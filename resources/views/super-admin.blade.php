@@ -23,23 +23,38 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Funcion</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                         {{app("debugbar")->info("$users")}}
                         @for($i=0; $i<count($users);$i++)
+                            <form action="{{ route('dashboard') }}" method="post">
+                                @csrf
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->id }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->email }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                    @if($users[$i]->job!=1)
+                                    <select name="job" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                         @for($r=0;$r<count($functions);$r++)
                                             <option value="{{$functions[$r]->id}}" @if($functions[$r]->id==$users[$i]->job) selected @endif>{{$functions[$r]->name}}</option>
                                         @endfor
                                     </select>
                                 </td>
+                                <td>
+                                    <input type="hidden" name="id" value="{{$users[$i]->id}}">
+                                <input type="submit" name="btn">
+                                    @else
+                                        {{"Super Admin"}}
+                                    @endif
+
+                                </td>
+
                             </tr>
+
+                            </form>
                         @endfor
                         </tbody>
                     </table>

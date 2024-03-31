@@ -46,7 +46,6 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'job'=>$request->job
         ]);
-dump($user);
 
         return redirect(route('dashboard', absolute: false));
     }

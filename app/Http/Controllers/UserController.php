@@ -29,4 +29,15 @@ class UserController extends Controller
 
     }
 
+    public function change_user(Request $request)
+    {
+        app("debugbar")->info($request);
+    $user=User::find($request->input("id"));
+        $user->update([
+            'job'=>$request->input("job")]);
+
+
+  return redirect(route('dashboard', absolute: false));
+    }
+
 }

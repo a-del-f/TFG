@@ -15,7 +15,8 @@ Route::get('/dashboard', function () {
 
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('incidences',[\App\Http\Controllers\IncidencesController::class,'index'])->name('incidences');
+Route::post("dashboard",[UserController::class,'change_user']);
+
 
 Route::middleware('auth')->group(function () {
 
