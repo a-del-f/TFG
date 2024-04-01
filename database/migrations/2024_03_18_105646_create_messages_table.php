@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("name")->nullable();
             $table->string("description")->nullable();            $table->timestamps(false);
-
+            $table->boolean("seen")->default(false);
+            $table->boolean("solved")->default(false);
         });
     }
 

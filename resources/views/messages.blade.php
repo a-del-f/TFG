@@ -16,13 +16,9 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <x-nav-link :href="route('incidences')">
-                    {{ __('Listado de incidencias incidencias') }}
-                </x-nav-link>
+
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <x-nav-link :href="route('messages')">
-                        {{ __('Ver mensajes('.count ($incidencias).')') }}
-                    </x-nav-link>
+
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -33,44 +29,32 @@
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Nombre
+                                    Description
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Email
+                                    Seen
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Funcion
+                                    Solved
                                 </th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                            {{app("debugbar")->info("$users")}}
-                            @for($i=0; $i<count($users);$i++)
+                            @for($i=0; $i<count($messages);$i++)
                                 <form action="{{ route('dashboard') }}" method="post">
                                     @csrf
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->id }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->email }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($users[$i]->job!=1)
-                                                <select name="job"
-                                                        class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                                                    @for($r=0;$r<count($functions);$r++)
-                                                        <option value="{{$functions[$r]->id}}"
-                                                                @if($functions[$r]->id==$users[$i]->job) selected @endif>{{$functions[$r]->name}}</option>
-                                                    @endfor
-                                                </select>
-                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->id }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->description }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->seen }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->solved }}</td>
+
+
                                         <td>
-                                            <input type="hidden" name="id" value="{{$users[$i]->id}}">
-                                            <input type="submit" name="btn">
-                                            @else
-                                                {{"Super Admin"}}
-                                            @endif
+
 
                                         </td>
 
