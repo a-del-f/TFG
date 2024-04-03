@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create("incidences", function (Blueprint $table){
             $table->id();
-            $table->string("name")->nullable();
-            $table->integer("description")->nullable();            $table->timestamps(false);
+            $table->string("description")->nullable();
+            $table->timestamps(false);
+
 
         });
     }

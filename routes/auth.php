@@ -34,6 +34,10 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('incidences',[\App\Http\Controllers\IncidencesController::class,'index'])->name('incidences');
+    Route::get('messages',[\App\Http\Controllers\MessagesController::class,'index'])->name('messages');
+
+    Route::get('create_message',[\App\Http\Controllers\MessagesController::class,'show'])->name('create_message');
 
     Route::get('departments', [DepartmentController::class,'index'])->name('departments');
     Route::post('departments', [DepartmentController::class,'store']);

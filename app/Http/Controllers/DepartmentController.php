@@ -6,5 +6,6 @@ class DepartmentController
 {
     public function index()
     {
+
     return view("departments");}
 }

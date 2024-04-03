@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create("messages", function (Blueprint $table){
             $table->id();
-            $table->string("name")->nullable();
-            $table->string("description")->nullable();            $table->timestamps(false);
+            $table->integer("id_incidence")->nullable();
+            $table->string("description")->nullable();
+            $table->boolean("seen")->default(false);
+            $table->boolean("solved")->default(false);
+            $table->timestamps(false);
 
         });
     }

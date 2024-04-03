@@ -15,6 +15,9 @@ Route::get('/dashboard', function () {
 
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::post("dashboard",[UserController::class,'change_user']);
+
+
 
 Route::middleware('auth')->group(function () {
 
