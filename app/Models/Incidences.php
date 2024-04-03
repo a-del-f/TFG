@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 class Incidences extends Authenticatable // Extiende la clase Model
 {
     use HasFactory, Notifiable;
+    public $timestamps = false;
 
     protected $fillable = [
         'id',

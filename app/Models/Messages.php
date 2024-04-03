@@ -9,10 +9,12 @@ use Illuminate\Notifications\Notifiable;
 class Messages extends Authenticatable // Extiende la clase Model
 {
     use HasFactory, Notifiable;
+    public $timestamps = false;
 
     protected $fillable = [
         'id',
         'id_incidence',
+        "description",
         'seen',
         'solved'
     ];

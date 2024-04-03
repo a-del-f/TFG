@@ -18,6 +18,7 @@ Route::get('/dashboard', function () {
 Route::post("dashboard",[UserController::class,'change_user']);
 
 
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

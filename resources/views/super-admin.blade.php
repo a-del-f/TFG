@@ -9,19 +9,18 @@
             </x-nav-link>
 
 
-
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <x-nav-link :href="route('incidences')">
-                    {{ __('Listado de incidencias incidencias') }}
-                </x-nav-link>
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <x-nav-link :href="route('incidences')">
+                        {{ __('Listado de incidencias incidencias') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('messages')">
-                        {{ __('Ver mensajes('.count ($incidencias).')') }}
+                        {{ __('Ver mensajes('.count ($messages).')') }}
                     </x-nav-link>
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <table class="min-w-full divide-y divide-gray-200">
