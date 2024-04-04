@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DepartmentsController;
 
 Route::middleware('guest')->group(function () {
 
@@ -38,9 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::get('messages',[\App\Http\Controllers\MessagesController::class,'index'])->name('messages');
 
     Route::get('create_message',[\App\Http\Controllers\MessagesController::class,'show'])->name('create_message');
+    Route::post('create_message',[\App\Http\Controllers\MessagesController::class,'store']);
 
-    Route::get('departments', [DepartmentController::class,'index'])->name('departments');
-    Route::post('departments', [DepartmentController::class,'store']);
+    Route::get('departments', [DepartmentsController::class,'index'])->name('departments');
+    Route::post('departments', [DepartmentsController::class,'store']);
 
 
     Route::get('register', [RegisteredUserController::class, 'create'])

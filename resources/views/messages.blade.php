@@ -31,6 +31,10 @@
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    N Devices
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Seen
                                 </th>
                                 <th scope="col"
@@ -41,12 +45,13 @@
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
+                            {{app("debugbar")->info($messages)}}
                             @for($i=0; $i<count($messages);$i++)
-                                <form action="{{ route('dashboard') }}" method="post">
-                                    @csrf
+
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->id }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->description }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->id_incidence }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->seen }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->solved }}</td>
 
@@ -54,7 +59,7 @@
 
                                     </tr>
 
-                                </form>
+
                             @endfor
                             </tbody>
                         </table>

@@ -11,8 +11,8 @@
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Numero de dispositivos')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="number" name="number" :value="old('email')" required autocomplete="username" />
+            <x-input-label for="ndevices" :value="__('Numero de dispositivos')" />
+            <x-text-input id="ndevices" class="block mt-1 w-full" type="number" name="ndevices"  required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
