@@ -6,12 +6,11 @@ use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\JobController;
-use Illuminate\Pagination\CursorPaginator;
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::orderBy('id','asc')->cursorPaginate(10);
+        $users = User::simplePaginate(1);
 
         $job = auth()->user()->job;
 

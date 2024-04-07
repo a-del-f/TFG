@@ -7,7 +7,7 @@
             <x-nav-link :href="route('departments')">
                 {{ __('Registrar Departamentos') }}
             </x-nav-link>
-
+            {{app("debugbar")->info($users)}}
 
         </h2>
     </x-slot>
@@ -21,6 +21,8 @@
                     </x-nav-link>
                     <x-nav-link :href="route('messages')">
                         {{ __('Ver mensajes('.count ($messages).')') }}
+                        {{ $users->links() }}
+
                     </x-nav-link>
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -81,7 +83,6 @@
                         </table>
 
                         <div>
-
                         </div>
                     </div>
 
