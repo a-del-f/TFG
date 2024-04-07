@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Incidences;
+use App\Models\Incidence;
 use App\Models\User;
-class IncidencesController
+class IncidenceController
 {
     public function index()
     {
-        $incidencias = Incidences::all();
+        $incidencias = Incidence::all();
         $users=User::all();
         return view("incidencies",compact('incidencias','users'));
     }
     public function show()
     {
-        $functions = Incidences::all();
+        $functions = Incidence::all();
 
         return $functions;
 

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Departments;
+use App\Models\Department;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class DepartmentsController
+class DepartmentController
 {
     public function index()
     {
@@ -21,7 +21,7 @@ class DepartmentsController
 
         ]);
 
-        $department = Departments::create([
+        $department = Department::create([
             'name' => $request->name,
             'ndevices' => $request->ndevices,
 

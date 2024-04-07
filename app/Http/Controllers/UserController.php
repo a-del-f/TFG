@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Messages;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Http\Controllers\JobsController;
+use App\Http\Controllers\JobController;
+use Illuminate\Pagination\CursorPaginator;
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('id','asc')->cursorPaginate(10);
 
         $job = auth()->user()->job;
 
-        $messages=Messages::all();
+        $messages=Message::all();
 
-        $Controller=new JobsController();
+        $Controller=new JobController();
     $functions=$Controller->show();
         if ($job == 1) {
             return view('super-admin',compact( 'users','functions','messages'));  }

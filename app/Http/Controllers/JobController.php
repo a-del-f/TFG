@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Jobs;
+use App\Models\Job;
 
-class JobsController extends Controller
+class JobController extends Controller
 {
     public function show()
     {
-        $functions = Jobs::all();
+        $functions = Job::all();
 
         return $functions;
 

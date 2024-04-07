@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Messages extends Authenticatable // Extiende la clase Model
+class Message extends Authenticatable // Extiende la clase Model
 {
     use HasFactory, Notifiable;
     public $timestamps = false;

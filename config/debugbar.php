@@ -131,7 +131,7 @@ return [
      |--------------------------------------------------------------------------
      |
      | When enabled, the Debugbar shows deprecated warnings for Symfony components
-     | in the Messages tab.
+     | in the Message tab.
      |
      */
     'error_handler' => false,
@@ -158,7 +158,7 @@ return [
 
     'collectors' => [
         'phpinfo'         => true,  // Php version
-        'messages'        => true,  // Messages
+        'messages'        => true,  // Message
         'time'            => true,  // Time Datalogger
         'memory'          => true,  // Memory usage
         'exceptions'      => true,  // Exception displayer

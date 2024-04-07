@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 
 // Importa la clase Model
 
-class Incidences extends Model // Extiende la clase Model
+class Incidence extends Model // Extiende la clase Model
 {
     use HasFactory, Notifiable;
     public $timestamps = false;

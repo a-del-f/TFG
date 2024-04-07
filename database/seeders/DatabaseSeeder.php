@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Incidences;
-use App\Models\Jobs;
-use App\Models\Messages;
+use App\Models\Incidence;
+use App\Models\Job;
+use App\Models\Message;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,16 +17,16 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        Jobs::create([
+        Job::create([
             'name'=>'Super Admin'
         ]);
-        Jobs::create([
+        Job::create([
             'name'=>'Admin'
         ]);
-        Jobs::create([
+        Job::create([
             'name'=>'Technician'
         ]);
-        Jobs::create([
+        Job::create([
             'name'=>'User'
         ]);
         User::factory()->create([
@@ -35,20 +35,20 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin1234'),
             'job'=>1
         ]);
-        Incidences::create([
+        Incidence::create([
             'id'=>404,
             'description'=>"Equipo faltante"
         ]);
 
-        Incidences::create([
+        Incidence::create([
             'id'=>3057,
             'description'=>"Equipo dañado"
         ]);
-        Incidences::create([
+        Incidence::create([
             'id'=>200,
             'description'=>"Falta de recursos en el equipo"
         ]);
-        Incidences::create([
+        Incidence::create([
             'id'=>3010,
             'description'=>"Error en el SO"
         ]);

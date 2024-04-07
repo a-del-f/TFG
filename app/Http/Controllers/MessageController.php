@@ -5,19 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
-use App\Models\Incidences;
-use App\Models\Messages;
+use App\Models\Incidence;
+use App\Models\Message;
 use App\Models\User;
-class MessagesController
+class MessageController
 {
     public function index()
     {
-        $messages = Messages::all();
+        $messages = Message::all();
         $users=User::all();
         return view("messages",compact('messages','users'));
     }
     public function show(){
-        $incidencies=Incidences::all();
+        $incidencies=Incidence::all();
         return view("create_message",compact("incidencies"));
 
     }
@@ -29,7 +29,7 @@ class MessagesController
 
         ]);
 
-        $messages = Messages::create([
+        $messages = Message::create([
             'description' => $request->description,
             'id_incidence' => $request->id_incidence,
 
