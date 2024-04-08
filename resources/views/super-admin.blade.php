@@ -21,9 +21,12 @@
                     </x-nav-link>
                     <x-nav-link :href="route('messages')">
                         {{ __('Ver mensajes('.count ($messages).')') }}
-                        {{ $users->links() }}
+
+
 
                     </x-nav-link>
+                    {{ $users->links() }}
+
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
