@@ -6,12 +6,11 @@ use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\JobController;
-use Illuminate\Pagination\CursorPaginator;
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::orderBy('id','asc')->cursorPaginate(10);
+        $users = User::simplePaginate(1);
 
         $job = auth()->user()->job;
 
@@ -30,7 +29,15 @@ class UserController extends Controller
         }
 
     }
-
+public function redirect(Request $request)
+{
+if($request->input("btn")){
+    $this->change_user($request);
+}
+if($request->input("eleminar")){
+    $this->eleminar($request);
+}
+}
     public function change_user(Request $request)
     {
         app("debugbar")->info($request);
@@ -40,6 +47,13 @@ class UserController extends Controller
 
 
   return redirect(route('dashboard', absolute: false));
+    }
+    public function eleminar(Request $request)
+    {
+        $user=User::find($request->input("id"));
+    $user->delete();
+        return redirect(route('dashboard', absolute: false));
+
     }
 
 }
