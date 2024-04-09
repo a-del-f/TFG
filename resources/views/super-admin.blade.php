@@ -77,7 +77,12 @@
                                             @endif
 
                                         </td>
+                                        @if($users[$i]->job!=1)
+                                        <td>
 
+                                            <input type="submit" value="Eleminar" name="eleminar">
+
+                                        </td>@endif
                                     </tr>
 
                                 </form>
