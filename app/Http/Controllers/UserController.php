@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Job;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -16,8 +17,8 @@ class UserController extends Controller
 
         $messages=Message::all();
 
-        $Controller=new JobController();
-    $functions=$Controller->show();
+
+    $functions=Job::all();
         if ($job == 1) {
             return view('super-admin',compact( 'users','functions','messages'));  }
         elseif ($job == 2) {

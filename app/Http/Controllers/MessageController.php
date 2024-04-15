@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
@@ -16,13 +17,26 @@ class MessageController
         $users=User::all();
         return view("messages",compact('messages','users'));
     }
-    public function show(){
+
+    public function create(){
         $incidencies=Incidence::all();
-        return view("create_message",compact("incidencies"));
+        $department=Department::all();
+
+        return view("create_message",compact("incidencies","department"));
 
     }
-    public function store(Request $request ): RedirectResponse
+    public function store(Request $request )
     {
+
+        $department = Department::all();
+        $incidencies = Incidence::all();
+
+        if ($department->isEmpty()) {
+            // Si no hay departamentos disponibles, pasa el mensaje de error y los datos necesarios a la vista
+            $errorMessage = 'No hay departamentos disponibles en este momento. Por favor, inténtalo de nuevo más tarde.';
+            return view('create_message', compact('incidencies', 'department', 'errorMessage'));
+        }
+
         $request->validate([
             'description' => ['required', 'string'],
             'id_incidence' => ['required', 'integer'],

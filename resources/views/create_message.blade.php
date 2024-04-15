@@ -24,7 +24,19 @@
         </select>
 
         </div>
+        <div class="mt-4">
+            <x-input-label for="department" :value="__('department')" />
+            <select name="department" id="department" >
+                {{app("debugbar")->info($department)}}
+                @for($i=0;$i<count($department);$i++)
 
+                    <option value="{{$department[$i]->id}}" > {{ $department[$i]->id."  ".$department[$i]->name  }} </option>
+                @endfor
+            </select>
+            @if(isset($errorMessage))
+            <x-input-error :messages="$errorMessage" class="mt-2" />
+            @endif
+        </div>
         <div class="flex items-center justify-end mt-4">
 
 

@@ -7,13 +7,6 @@ use App\Models\Job;
 
 class JobController extends Controller
 {
-    public function show()
-    {
-        $functions = Job::all();
 
-        return $functions;
-
-
-    }
 
 }

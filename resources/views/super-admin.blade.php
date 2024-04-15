@@ -7,8 +7,9 @@
             <x-nav-link :href="route('departments')">
                 {{ __('Registrar Departamentos') }}
             </x-nav-link>
-            {{app("debugbar")->info($users)}}
-
+            <x-nav-link :href="route('delete_department')">
+                {{ __('Eleminar Departamentos') }}
+            </x-nav-link>
         </h2>
     </x-slot>
 
@@ -63,7 +64,7 @@
                                             @if($users[$i]->job!=1)
                                                 <select name="job"
                                                         class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                                                    @for($r=0;$r<count($functions);$r++)
+                                                    @for($r=1;$r<count($functions);$r++)
                                                         <option value="{{$functions[$r]->id}}"
                                                                 @if($functions[$r]->id==$users[$i]->job) selected @endif>{{$functions[$r]->name}}</option>
                                                     @endfor

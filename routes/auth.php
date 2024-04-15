@@ -36,8 +36,11 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('incidences',[\App\Http\Controllers\IncidenceController::class,'index'])->name('incidences');
     Route::get('messages',[\App\Http\Controllers\MessageController::class,'index'])->name('messages');
+    Route::get('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete_index'])->name('delete_department');
+    Route::post('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete']);
 
-    Route::get('create_message',[\App\Http\Controllers\MessageController::class,'show'])->name('create_message');
+
+    Route::get('create_message',[\App\Http\Controllers\MessageController::class,'create'])->name('create_message');
     Route::post('create_message',[\App\Http\Controllers\MessageController::class,'store']);
 
     Route::get('departments', [DepartmentController::class,'index'])->name('departments');
