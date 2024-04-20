@@ -54,14 +54,16 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                             {{app("debugbar")->info("$users")}}
                             @for($i=0; $i<count($users);$i++)
-                                <form action="{{ route('dashboard') }}" method="post">
+                                <form action="{{ route('redirect') }}" method="post">
                                     @csrf
+                                    @method("put")
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->id }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->email }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($users[$i]->job!=1)
+
+                                                     @if($users[$i]->job!=1)
                                                 <select name="job"
                                                         class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                                     @for($r=1;$r<count($functions);$r++)
@@ -69,24 +71,32 @@
                                                                 @if($functions[$r]->id==$users[$i]->job) selected @endif>{{$functions[$r]->name}}</option>
                                                     @endfor
                                                 </select>
+
+
                                         </td>
                                         <td>
-                                            <input type="hidden" name="id" value="{{$users[$i]->id}}">
+
+                                                <input type="hidden" name="id" value="{{$users[$i]->id}}">
                                             <input type="submit" name="btn">
+
                                             @else
                                                 {{"Super Admin"}}
                                             @endif
 
-                                        </td>
+                                        </td></form>
+                                <form action="{{route('redirect')}}" method="post" >
+                                    @csrf
+                                    @method("delete")
                                         @if($users[$i]->job!=1)
                                         <td>
+                                            <input type="hidden" name="id" value="{{$users[$i]->id}}">
 
                                             <input type="submit" value="Eleminar" name="eleminar">
 
                                         </td>@endif
+                                </form>
                                     </tr>
 
-                                </form>
                             @endfor
                             </tbody>
                         </table>

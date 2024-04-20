@@ -24,6 +24,7 @@
                             type="password"
                             name="password"
                             required autocomplete="new-password" />
+            <button type="button" onclick="togglePasswordVisibility()">Mostrar/ocultar contraseña</button>
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -61,4 +62,17 @@
             </x-primary-button>
         </div>
     </form>
+
+    <script>
+        function togglePasswordVisibility() {
+            var passwordField = document.getElementById("password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+
+    </script>
+
 </x-guest-layout>

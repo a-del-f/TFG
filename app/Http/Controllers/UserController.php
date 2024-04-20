@@ -36,6 +36,7 @@ if($request->input("btn")){
     $this->change_user($request);
 }
 if($request->input("eleminar")){
+
     $this->eleminar($request);
 }
 }
@@ -47,13 +48,14 @@ if($request->input("eleminar")){
             'job'=>$request->input("job")]);
 
 
-  return redirect(route('dashboard', absolute: false));
+  return redirect(route('/dashboard', absolute: false));
     }
     public function eleminar(Request $request)
     {
         $user=User::find($request->input("id"));
     $user->delete();
-        return redirect(route('dashboard', absolute: false));
+
+        return redirect()->route('dashboard');
 
     }
 

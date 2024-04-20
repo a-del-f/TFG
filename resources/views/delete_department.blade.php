@@ -1,4 +1,7 @@
+
 <x-guest-layout>
+
+
     <form method="POST" action="{{ route('delete_department') }}">
         @csrf
 
