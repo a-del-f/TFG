@@ -5,7 +5,7 @@ use DebugBar\DebugBar;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 Route::get('/', function () {
-    return view('auth/login');
+    return  redirect()->route("login") ;
 });
 
 
