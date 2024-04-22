@@ -3,6 +3,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
+                <x-nav-link :href="route('dashboard')">
+                    <img src="{{ asset('img/volver.png') }}" style="display: block;" width="50px"  alt="Descripción de la imagen">
+                </x-nav-link>
+
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">

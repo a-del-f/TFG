@@ -5,7 +5,7 @@ use DebugBar\DebugBar;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 Route::get('/', function () {
-    return view('auth/login');
+    return  redirect()->route("login") ;
 });
 
 
@@ -15,7 +15,8 @@ Route::get('/dashboard', function () {
 
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post("dashboard",[UserController::class,'redirect']);
+Route::put("redirect",[UserController::class,'change_user'])->name("redirect");
+Route::delete("redirect",[UserController::class,'eleminar'])->name("redirect");
 
 
 

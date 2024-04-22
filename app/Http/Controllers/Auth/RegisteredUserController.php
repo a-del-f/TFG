@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\JobController;
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -21,8 +22,7 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
 
-        $Controller=new JobController();
-        $functions=$Controller->show();
+        $functions=Job::all();
         return view('auth.register',compact("functions"));
     }
 
