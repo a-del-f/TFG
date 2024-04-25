@@ -35,6 +35,12 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin1234'),
             'job'=>1
         ]);
+        User::factory()->create([
+            'name' => 'Tech',
+            'email' => 'tech@example.com',
+            'password' => bcrypt('tech1234'),
+            'job'=>3
+        ]);
         Incidence::create([
             'id'=>404,
             'description'=>"Equipo faltante"

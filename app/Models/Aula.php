@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
-
-class Department extends Model
+class Aula extends Model
 {
     use HasFactory, Notifiable;
 
@@ -17,6 +15,7 @@ class Department extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id_department',
         'name'
 
 
@@ -35,5 +34,4 @@ class Department extends Model
      *
      * @return array<string, string>
      */
-
 }

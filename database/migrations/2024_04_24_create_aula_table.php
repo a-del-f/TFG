@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create("messages", function (Blueprint $table){
+        Schema::create("aula", function (Blueprint $table){
             $table->id();
-            $table->integer("id_incidence")->nullable();
-            $table->string("description")->nullable();
-            $table->boolean("seen")->default(false);
-            $table->boolean("solved")->default(false);
+            $table->bigInteger("id_department")->unsigned();
+            $table->string("name");
             $table->timestamps(false);
+            $table->foreign("id_department")->references("id")->on("department");
+
 
         });
     }

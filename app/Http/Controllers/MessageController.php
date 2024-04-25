@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aula;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -21,8 +22,8 @@ class MessageController
     public function create(){
         $incidencies=Incidence::all();
         $department=Department::all();
-
-        return view("create_message",compact("incidencies","department"));
+        $aula=Aula::all();
+        return view("create_message",compact("incidencies","department","aula"));
 
     }
     public function store(Request $request )
