@@ -7,6 +7,9 @@
             <x-nav-link :href="route('departments')">
                 {{ __('Registrar Departamentos') }}
             </x-nav-link>
+            <x-nav-link :href="route('aula')">
+                {{ __('Registrar Aula') }}
+            </x-nav-link>
             <x-nav-link :href="route('delete_department')">
                 {{ __('Eleminar Departamentos') }}
             </x-nav-link>

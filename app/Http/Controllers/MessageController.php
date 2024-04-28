@@ -29,25 +29,21 @@ class MessageController
     public function store(Request $request )
     {
 
-        $department = Department::all();
-        $incidencies = Incidence::all();
-
-        if ($department->isEmpty()) {
-            // Si no hay departamentos disponibles, pasa el mensaje de error y los datos necesarios a la vista
-            $errorMessage = 'No hay departamentos disponibles en este momento. Por favor, inténtalo de nuevo más tarde.';
-            return view('create_message', compact('incidencies', 'department', 'errorMessage'));
-        }
-
         $request->validate([
             'description' => ['required', 'string'],
             'id_incidence' => ['required', 'integer'],
+            'department'=>["required","integer"],
+            'aula'=>["required","string"],
 
         ]);
 
         $messages = Message::create([
             'description' => $request->description,
             'id_incidence' => $request->id_incidence,
-
+            'department'=>["required","string"],
+            'aula'=>["required","string"],
+            'user'=>["required","string"],
+            'user'=>["required","string"]
         ]);
 
         return redirect(route('messages', absolute: false));

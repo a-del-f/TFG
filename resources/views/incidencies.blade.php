@@ -1,12 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+
+          @if(auth()->user()->job == 1)
             <x-nav-link :href="route('register')">
                 {{ __('Registrar Usuarios') }}
             </x-nav-link>
             <x-nav-link :href="route('departments')">
                 {{ __('Registrar Departamentos') }}
             </x-nav-link>
+            @endif
         </h2>
     </x-slot>
 
