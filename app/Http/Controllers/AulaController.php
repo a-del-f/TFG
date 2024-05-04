@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aula;
 use App\Models\Department;
-use http\Env\Request;
+use Illuminate\Http\Request;
 
 class AulaController
 {
@@ -24,10 +25,15 @@ class AulaController
 
         $messages = Aula::create([
             'name' => $request->name,
-            'department' => $request->department,
+            'id_department' => $request->department,
 
         ]);
 
-        return redirect(route('messages', absolute: false));
+        return redirect(route('dashboard', absolute: false));
+    }
+    public function getAulasByDepartment($department_id): \Illuminate\Http\JsonResponse
+    {
+        $aulas = Aula::where('id_department', $department_id)->get();
+        return response()->json($aulas);
     }
 }

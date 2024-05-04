@@ -21,31 +21,29 @@ class MessageController
 
     public function create(){
         $incidencies=Incidence::all();
-        $department=Department::all();
+        $departments=Department::all();
         $aula=Aula::all();
-        return view("create_message",compact("incidencies","department","aula"));
+        return view("create_message",compact("incidencies","departments","aula"));
 
     }
     public function store(Request $request )
     {
-
         $request->validate([
             'description' => ['required', 'string'],
             'id_incidence' => ['required', 'integer'],
-            'department'=>["required","integer"],
-            'aula'=>["required","string"],
-
+            'id_department' => ['required', 'integer'],
+            'id_aula' => ['required', 'integer'],
+            'estado' => ['required', 'string']
         ]);
 
         $messages = Message::create([
             'description' => $request->description,
             'id_incidence' => $request->id_incidence,
-            'department'=>["required","string"],
-            'aula'=>["required","string"],
-            'user'=>["required","string"],
-            'user'=>["required","string"]
+            'id_department'=>$request->id_department,
+            'id_aula'=>$request->id_aula,
+            'user'=>auth()->user()->name." ".auth()->user()->surname,
+            'estado'=>$request->estado,
         ]);
-
-        return redirect(route('messages', absolute: false));
+        return redirect()->route('messages');
     }
 }

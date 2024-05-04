@@ -16,7 +16,7 @@
                 @for($i=0;$i<count($department);$i++)
 
                     <option
-                        value="{{$department[$i]->id}}"> {{ $department[$i]->id."  ".$department[$i]->name  }} </option>
+                        value="{{$department[$i]->id}}"> {{ $department[$i]->name  }} </option>
                 @endfor
             </select>
 

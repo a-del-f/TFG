@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger("id_aula")->nullable()->unsigned();
             $table->string("description")->nullable();
             $table->dateTime('fecha_creacion')->default(now());
+            $table->string("user")->nullable();
             $table->enum('estado', ['en espera', 'solucionando', 'solucionado'])->default('en espera');
             $table->foreign("id_incidence")->references("id")->on("incidences");
             $table->foreign("id_department")->references("id")->on("department");

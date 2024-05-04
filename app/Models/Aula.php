@@ -20,7 +20,7 @@ class Aula extends Model
 
 
     ];
-    protected $table = 'department';
+    protected $table = 'aula';
 
     /**
      * The attributes that should be hidden for serialization.
