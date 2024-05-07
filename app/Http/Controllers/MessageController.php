@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Aula;
 use App\Models\Department;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
@@ -43,7 +44,11 @@ class MessageController
             'id_aula'=>$request->id_aula,
             'user'=>auth()->user()->name." ".auth()->user()->surname,
             'estado'=>$request->estado,
+            'fecha_creacion' => Carbon::now()
         ]);
         return redirect()->route('messages');
     }
+
+
+
 }
