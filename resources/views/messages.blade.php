@@ -1,72 +1,127 @@
+@php use App\Models\Aula; @endphp
+@php use App\Models\Department; @endphp
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             <x-nav-link :href="route('create_message')">
                 {{ __('Crear mensajes') }}
             </x-nav-link>
-
-
-
-
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    ID
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Description
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    N Devices
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Seen
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Solved
-                                </th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                            {{app("debugbar")->info($messages)}}
-                            @for($i=0; $i<count($messages);$i++)
-
+                        @section('tabla')
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        ID
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Incidencia
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Departamento
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Aula
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Usuario
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Estado
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach($messages as $message)
+                                    @php
+                                        $aula = App\Models\Aula::find($message->id_aula);
+                                        $department = App\Models\Department::find($message->id_department);
+                                    @endphp
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->id }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->description }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->id_incidence }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->seen }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $messages[$i]->solved }}</td>
-
-
-
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->id }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_incidence }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $department->name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{  $aula->name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->user }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->estado }}</td>
+                                        <td>
+                                            <button class="btn btn-primary open-modal-button"
+                                                    data-message-id="{{ $message->id }}" data-aula-id="{{  $aula->id }}"
+                                                    data-department-id="{{ $department->id }}">Ver tabla
+                                            </button>
+                                        </td>
                                     </tr>
+                                @endforeach
 
-
-                            @endfor
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        @show
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal" id="modal-tabla">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Título de la ventana emergente</h4>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Descripción</th>
+                        <th>Usuario</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.open-modal-button').click(function () {
+                var aulaId = $(this).data('aula-id');
+                var departmentId = $(this).data('department-id');
+
+                // Filtrar la tabla en la ventana emergente utilizando las ID de departamento y aula
+                var messages = @json($messages);
+                var filteredMessages = messages.filter(function (message) {
+                    return message.id_aula == aulaId && message.id_department == departmentId;
+                });
+
+                // Mostrar la ventana emergente y actualizar el contenido de la tabla con los mensajes filtrados
+                $('#modal-tabla tbody').empty();
+                filteredMessages.forEach(function (message) {
+                    $('#modal-tabla tbody').append('<tr><td>' + message.fecha_creacion + '</td><td>' + message.description + '</td><td>' + message.user + '</td></tr>');
+                });
+                $('#modal-tabla').modal();
+            });
+        });
+    </script>
+
+
+
 </x-app-layout>

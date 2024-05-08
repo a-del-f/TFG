@@ -7,8 +7,18 @@
             <x-nav-link :href="route('departments')">
                 {{ __('Registrar Departamentos') }}
             </x-nav-link>
+            <x-nav-link :href="route('aula')">
+                {{ __('Registrar Aula') }}
+            </x-nav-link>
             <x-nav-link :href="route('delete_department')">
                 {{ __('Eleminar Departamentos') }}
+            </x-nav-link>
+            <x-nav-link :href="route('incidences')">
+                {{ __('Listado de incidencias incidencias') }}
+            </x-nav-link>
+            <x-nav-link :href="route('messages')">
+                {{ __('Ver mensajes('.count ($messages).')') }}
+
             </x-nav-link>
         </h2>
     </x-slot>
@@ -17,15 +27,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <x-nav-link :href="route('incidences')">
-                        {{ __('Listado de incidencias incidencias') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('messages')">
-                        {{ __('Ver mensajes('.count ($messages).')') }}
 
-
-
-                    </x-nav-link>
                     {{ $users->links() }}
 
                     <div class="p-6 text-gray-900 dark:text-gray-100">

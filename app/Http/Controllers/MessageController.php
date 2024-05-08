@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aula;
 use App\Models\Department;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
@@ -20,35 +22,33 @@ class MessageController
 
     public function create(){
         $incidencies=Incidence::all();
-        $department=Department::all();
-
-        return view("create_message",compact("incidencies","department"));
+        $departments=Department::all();
+        $aula=Aula::all();
+        return view("create_message",compact("incidencies","departments","aula"));
 
     }
     public function store(Request $request )
     {
-
-        $department = Department::all();
-        $incidencies = Incidence::all();
-
-        if ($department->isEmpty()) {
-            // Si no hay departamentos disponibles, pasa el mensaje de error y los datos necesarios a la vista
-            $errorMessage = 'No hay departamentos disponibles en este momento. Por favor, inténtalo de nuevo más tarde.';
-            return view('create_message', compact('incidencies', 'department', 'errorMessage'));
-        }
-
         $request->validate([
             'description' => ['required', 'string'],
             'id_incidence' => ['required', 'integer'],
-
+            'id_department' => ['required', 'integer'],
+            'id_aula' => ['required', 'integer'],
+            'estado' => ['required', 'string']
         ]);
 
         $messages = Message::create([
             'description' => $request->description,
             'id_incidence' => $request->id_incidence,
-
+            'id_department'=>$request->id_department,
+            'id_aula'=>$request->id_aula,
+            'user'=>auth()->user()->name." ".auth()->user()->surname,
+            'estado'=>$request->estado,
+            'fecha_creacion' => Carbon::now()
         ]);
-
-        return redirect(route('messages', absolute: false));
+        return redirect()->route('messages');
     }
+
+
+
 }
