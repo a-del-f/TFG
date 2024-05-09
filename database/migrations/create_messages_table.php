@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create("messages", function (Blueprint $table){
             $table->id();
+            $table->bigInteger('id_message');
             $table->bigInteger("id_incidence")->nullable()->unsigned();
             $table->bigInteger("id_department")->nullable()->unsigned();
             $table->bigInteger("id_aula")->nullable()->unsigned();
             $table->string("description")->nullable();
             $table->dateTime('fecha_creacion')->nullable();
             $table->string("user")->nullable();
-            $table->enum('estado', ['en espera', 'solucionando', 'solucionado'])->default('en espera');
+            $table->enum('estado', ['abierta', 'en proceso', 'solucionado']);
             $table->foreign("id_incidence")->references("id")->on("incidences");
             $table->foreign("id_department")->references("id")->on("department");
             $table->foreign("id_aula")->references("id")->on("aula");

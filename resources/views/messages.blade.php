@@ -52,12 +52,25 @@
                                         $department = App\Models\Department::find($message->id_department);
                                     @endphp
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->id }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_message }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_incidence }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $department->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{  $aula->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->user }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->estado }}</td>
+                                        @if(auth()->user()->job==1)
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->estado }}</td>@endif
+                                        @if(auth()->user()->job==2)
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="select-wrapper mt-4">
+
+                                                <select name="estado" class="estado" required>
+                                                    <option style=" color: whitesmoke; background-color: blue" value="abierta">abierta</option>
+                                                    <option style=" color: black; background-color: yellow" value="solucionando">en proceso</option>
+                                                    <option style=" color: black; background-color: greenyellow" value="solucionado">solucionado</option>
+                                                </select>
+                                            </div>
+                                            </td>
+                                        @endif
                                         <td>
                                             <button class="btn btn-primary open-modal-button"
                                                     data-message-id="{{ $message->id }}" data-aula-id="{{  $aula->id }}"
@@ -100,6 +113,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <script src="{{ asset('js/changeColor.js') }}" defer></script>
+
     <script>
         $(document).ready(function () {
             $('.open-modal-button').click(function () {

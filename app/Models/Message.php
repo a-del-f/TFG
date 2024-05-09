@@ -10,8 +10,9 @@ class Message extends Authenticatable // Extiende la clase Model
 {
     use HasFactory, Notifiable;
     public $timestamps = false;
+    protected $table = 'messages';
 
-    protected $fillable = ['description', 'id_incidence', 'id_department', 'id_aula', 'user', 'estado',];
+    protected $fillable = ['description', 'id_incidence', 'id_department', 'id_aula', 'user', 'estado','id_message','fecha_creacion'];
 
 }
 

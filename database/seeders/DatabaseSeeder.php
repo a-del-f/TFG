@@ -17,9 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        Job::create([
-            'name'=>'Super Admin'
-        ]);
+
         Job::create([
             'name'=>'Admin'
         ]);
@@ -39,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Tech',
             'email' => 'tech@example.com',
             'password' => bcrypt('tech1234'),
-            'job'=>3
+            'job'=>2
         ]);
         Incidence::create([
             'id'=>404,

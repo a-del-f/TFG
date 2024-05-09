@@ -11,6 +11,8 @@ use Illuminate\Http\RedirectResponse;
 use App\Models\Incidence;
 use App\Models\Message;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
 class MessageController
 {
     public function index()
@@ -34,8 +36,13 @@ class MessageController
             'id_incidence' => ['required', 'integer'],
             'id_department' => ['required', 'integer'],
             'id_aula' => ['required', 'integer'],
-            'estado' => ['required', 'string']
+            'estado' => ['required', 'string'],
+            'id_message' => ['nullable', 'integer', 'min:1'],
+
         ]);
+        $nextIdMessage = Message::max('id_message') + 1;
+
+        $idMessage = $request->input('id_message') !== null ? $request->input('id_message') : $nextIdMessage;
 
         $messages = Message::create([
             'description' => $request->description,
@@ -44,7 +51,9 @@ class MessageController
             'id_aula'=>$request->id_aula,
             'user'=>auth()->user()->name." ".auth()->user()->surname,
             'estado'=>$request->estado,
-            'fecha_creacion' => Carbon::now()
+            'fecha_creacion' => Carbon::now(),
+            'id_message' => $idMessage
+
         ]);
         return redirect()->route('messages');
     }

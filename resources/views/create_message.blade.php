@@ -45,9 +45,9 @@
         <div class="select-wrapper mt-4">
             <x-input-label for="estado" :value="__('Estado')"/>
             <select name="estado" id="estado" required>
-                <option style=" color: whitesmoke; background-color: red" value="en espera">En espera</option>
-                <option style=" color: black; background-color: yellow" value="solucionando">Solucionando</option>
-                <option style=" color: black; background-color: greenyellow" value="solucionado">Solucionado</option>
+                <option style=" color: whitesmoke; background-color: blue" value="abierta">abierta</option>
+                <option style=" color: black; background-color: yellow" value="solucionando">en proceso</option>
+                <option style=" color: black; background-color: greenyellow" value="solucionado">solucionado</option>
             </select>
         </div>
 
