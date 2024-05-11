@@ -36,10 +36,12 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('aula',[\App\Http\Controllers\AulaController::class,'index'])->name('aula');
     Route::post('aula',[\App\Http\Controllers\AulaController::class,'store']);
+    Route::put("messages",[\App\Http\Controllers\MessageController::class,'change_estado'])->name("change_estado");
 
 
     Route::get('incidences',[\App\Http\Controllers\IncidenceController::class,'index'])->name('incidences');
     Route::get('messages',[\App\Http\Controllers\MessageController::class,'index'])->name('messages');
+
     Route::get('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete_index'])->name('delete_department');
     Route::post('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete']);
 

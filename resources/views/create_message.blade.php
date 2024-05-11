@@ -4,11 +4,21 @@
 
         <!-- Description -->
         <div class="mt-4">
+            <x-input-label for="id_message" :value="__('Id de hilo')"/>
+            <select name="id_message" id="id_message">
+                <option value="{{ null }}">Nuevo hilo</option>
+
+            @foreach($messageIds as $message)
+                    <option value="{{ $message }}">{{ $message }}</option>
+                @endforeach
+            </select>
+        </div>
+
+
+        <div class="mt-4">
             <x-input-label for="description" :value="__('Description')"/>
             <x-text-input id="description" class="block mt-1 w-full" type="text" name="description" required/>
-            @error('description')
-            <span class="text-red-500">{{ $message }}</span>
-            @enderror
+
         </div>
 
         <!-- Incidence -->
@@ -46,7 +56,7 @@
             <x-input-label for="estado" :value="__('Estado')"/>
             <select name="estado" id="estado" required>
                 <option style=" color: whitesmoke; background-color: blue" value="abierta">abierta</option>
-                <option style=" color: black; background-color: yellow" value="solucionando">en proceso</option>
+                <option style=" color: black; background-color: yellow" value="en proceso">en proceso</option>
                 <option style=" color: black; background-color: greenyellow" value="solucionado">solucionado</option>
             </select>
         </div>

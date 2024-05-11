@@ -25,8 +25,9 @@ class MessageController
     public function create(){
         $incidencies=Incidence::all();
         $departments=Department::all();
+        $messageIds = Message::distinct()->pluck('id_message');
         $aula=Aula::all();
-        return view("create_message",compact("incidencies","departments","aula"));
+        return view("create_message",compact("messageIds","incidencies","departments","aula"));
 
     }
     public function store(Request $request )
@@ -56,6 +57,14 @@ class MessageController
 
         ]);
         return redirect()->route('messages');
+    }
+    public function change_estado(Request $request){
+        Message::where('id_message', $request->input('id_message'))->update([
+            'estado' => $request->input('estado')
+        ]);
+
+        return redirect()->route('dashboard');
+
     }
 
 

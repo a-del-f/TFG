@@ -43,6 +43,7 @@
                                         Estado
                                     </th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -59,20 +60,30 @@
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->user }}</td>
                                         @if(auth()->user()->job==1)
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->estado }}</td>@endif
-                                        @if(auth()->user()->job==2)
+                                        @if(auth()->user()->job==2)<form method="post" action="{{ route('messages') }}" >
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="select-wrapper mt-4">
+
+                                                    @csrf
+                                                    @method("put")
+
+                                                    <div class="select-wrapper mt-4">
 
                                                 <select name="estado" class="estado" required>
-                                                    <option style=" color: whitesmoke; background-color: blue" value="abierta">abierta</option>
-                                                    <option style=" color: black; background-color: yellow" value="solucionando">en proceso</option>
-                                                    <option style=" color: black; background-color: greenyellow" value="solucionado">solucionado</option>
+                                                    <option  @if($message->estado=="abierta") selected @endif style=" color: whitesmoke; background-color: blue" value="abierta">abierta</option>
+                                                    <option @if($message->estado=="en proceso") selected @endif style=" color: black; background-color: yellow" value="en proceso">en proceso</option>
+                                                    <option @if($message->estado=="solucionado") selected @endif style=" color: black; background-color: greenyellow" value="solucionado">solucionado</option>
                                                 </select>
-                                            </div>
+                                            </div></td>
+                                            <td>
+                                                <div class="flex items-center justify-end mt-4">
+                                                    <input type="hidden" name="id_message" value=" {{$message->id_message}}">
+                                                    <x-primary-button >{{ __('Create') }}</x-primary-button>
+                                                </div>
                                             </td>
+                                            </form>
                                         @endif
                                         <td>
-                                            <button class="btn btn-primary open-modal-button"
+                                            <button class="btn btn-primary open-modal-button ms-4"
                                                     data-message-id="{{ $message->id }}" data-aula-id="{{  $aula->id }}"
                                                     data-department-id="{{ $department->id }}">Ver tabla
                                             </button>
