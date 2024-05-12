@@ -13,12 +13,16 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-class MessageController
+class MessageController extends Controller
 {
     public function index()
     {
-        $messages = Message::all();
-        $users=User::all();
+        if (auth()->user()->job){
+            $messages = Message::all()->where("user",auth()->user()->name);
+
+        }else {
+            $messages = Message::all();
+        }$users=User::all();
         return view("messages",compact('messages','users'));
     }
 
@@ -66,6 +70,24 @@ class MessageController
         return redirect()->route('dashboard');
 
     }
+    public function details($id)
+    {
+        $message = Message::with(['department', 'aula'])->where("id_message", $id)->first();
+
+        if (!$message) {
+            return response()->json(['error' => 'Message not found'], 404);
+        }
+
+        return response()->json([
+            'department_id' => $message->department->id,
+            'department_name' => $message->department->name,
+            'aula_id' => $message->aula->id,
+            'aula_name' => $message->aula->name,
+            'estado'=>$message->estado
+        ]);
+    }
+
+
 
 
 

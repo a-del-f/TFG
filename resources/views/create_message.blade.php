@@ -103,7 +103,63 @@
                 });
             });
         });
+
+
+
+
     </script>
+<script>
+    $(document).ready(function() {
+        // Guardar el estado inicial de los select de departamento y aula
+        var initialDepartmentState = $('#id_department').prop('disabled') && $('#id_department').html();
+        var initialAulaState = $('#id_aula').prop('disabled') && $('#id_aula').html();
+
+        $('#id_message').change(function() {
+            var messageId = $(this).val();
+
+            if (messageId!=null) {
+                // Si se selecciona una opción con valor, deshabilitar y limpiar los select de departamento y aula
+
+                console.log('{{ route("message.details", ":id") }}'.replace(':id', messageId));
+                // Hacer una solicitud AJAX al servidor para recuperar el departamento y el aula correspondientes
+                $.ajax({
+
+                    url: '{{ route("message.details", ":id") }}'.replace(':id', messageId),
+                    type: 'GET',
+                    success: function(response) {
+                        $('#id_department').prop('disabled', true).empty();
+                        $('#id_aula').prop('disabled', true).empty();
+                        // Asignar el departamento y el aula correspondientes a los select
+                        $('#id_department').append('<option value="' + response.department_id + '">' + response.department_name + '</option>');
+                        $('#id_aula').append('<option value="' + response.aula_id + '">' + response.aula_name + '</option>');
+
+
+                        // Asignar el estado correspondiente al select
+                        $('#estado').val(response.estado);
+
+                        // Habilitar los select de departamento y aula
+                        $('#id_department').prop('disabled', true);
+                        $('#id_aula').prop('disabled', true);
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.error('Error al recuperar los datos:', errorThrown);
+
+                        // Restaurar el estado inicial de los select de departamento y aula en caso de error
+                        $('#id_department').prop('disabled', initialDepartmentState).html(initialDepartmentState);
+                        $('#id_aula').prop('disabled', initialAulaState).html(initialAulaState);
+                    }
+                });
+            } else {
+                // Si se selecciona la opción "Nuevo hilo" o el valor es null, restaurar el estado inicial de los select de departamento y aula
+                $('#id_department').prop('disabled', initialDepartmentState).html(initialDepartmentState);
+                $('#id_aula').prop('disabled', initialAulaState).html(initialAulaState);
+            }
+        });
+    });
+
+
+</script>
+
 
 
 </x-guest-layout>

@@ -3,6 +3,9 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <x-nav-link :href="route('incidences')">
+                {{ __('Listado de incidencias incidencias') }}
+            </x-nav-link>
             <x-nav-link :href="route('create_message')">
                 {{ __('Crear mensajes') }}
             </x-nav-link>
@@ -83,9 +86,8 @@
                                             </form>
                                         @endif
                                         <td>
-                                            <button class="btn btn-primary open-modal-button ms-4"
-                                                    data-message-id="{{ $message->id }}" data-aula-id="{{  $aula->id }}"
-                                                    data-department-id="{{ $department->id }}">Ver tabla
+                                            <button class="open-modal-button" data-message-id="{{ $message->id_message }}">
+                                                Ver tabla
                                             </button>
                                         </td>
                                     </tr>
@@ -129,13 +131,12 @@
     <script>
         $(document).ready(function () {
             $('.open-modal-button').click(function () {
-                var aulaId = $(this).data('aula-id');
-                var departmentId = $(this).data('department-id');
+                var messageId = $(this).data('message-id'); // Obtener el ID del mensaje
 
-                // Filtrar la tabla en la ventana emergente utilizando las ID de departamento y aula
+                // Filtrar la tabla en la ventana emergente utilizando el ID del mensaje
                 var messages = @json($messages);
                 var filteredMessages = messages.filter(function (message) {
-                    return message.id_aula == aulaId && message.id_department == departmentId;
+                    return message.id_message == messageId; // Filtrar por ID del mensaje
                 });
 
                 // Mostrar la ventana emergente y actualizar el contenido de la tabla con los mensajes filtrados
@@ -147,6 +148,7 @@
             });
         });
     </script>
+
 
 
 
