@@ -19,11 +19,13 @@ return new class extends Migration
             $table->bigInteger("id_aula")->nullable()->unsigned();
             $table->string("description")->nullable();
             $table->dateTime('fecha_creacion')->nullable();
-            $table->string("user")->nullable();
+            $table->bigInteger("user")->nullable();
             $table->enum('estado', ['abierta', 'en proceso', 'solucionado']);
             $table->foreign("id_incidence")->references("id")->on("incidences");
             $table->foreign("id_department")->references("id")->on("department");
             $table->foreign("id_aula")->references("id")->on("aula");
+            $table->foreign("user")->references("id")->on("users");
+
 
         });
     }

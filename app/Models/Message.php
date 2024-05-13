@@ -19,7 +19,15 @@ class Message extends Model // Extiende la clase Model
     {
         return $this->belongsTo(Department::class, 'id_department');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user');
+    }
+public function incidences()
+{
+    return $this->belongsTo(Incidence::class, 'id_incidence');
 
+}
     public function aula()
     {
         return $this->belongsTo(Aula::class, 'id_aula');

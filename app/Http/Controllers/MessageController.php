@@ -54,7 +54,7 @@ class MessageController extends Controller
             'id_incidence' => $request->id_incidence,
             'id_department'=>$request->id_department,
             'id_aula'=>$request->id_aula,
-            'user'=>auth()->user()->name." ".auth()->user()->surname,
+            'user'=>auth()->user()->id." ".auth()->user()->surname,
             'estado'=>$request->estado,
             'fecha_creacion' => Carbon::now(),
             'id_message' => $idMessage
