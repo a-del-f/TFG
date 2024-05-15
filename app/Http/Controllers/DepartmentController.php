@@ -17,13 +17,11 @@ class DepartmentController
     {
         $request->validate([
             'name' => ['required', 'string', ],
-            'ndevices' => ['required', 'integer'],
 
         ]);
 
         $department = Department::create([
             'name' => $request->name,
-            'ndevices' => $request->ndevices,
 
         ]);
 

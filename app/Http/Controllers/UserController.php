@@ -15,16 +15,20 @@ class UserController extends Controller
 
         $job = auth()->user()->job;
 
-        $messages=Message::all();
+        if (auth()->user()->job == 3) {
+            $messages = Message::where("user", auth()->user()->id)->get();
+        } else {
+            $messages = Message::all();
+        }
 
 
     $functions=Job::all();
         if ($job == 1) {
             return view('super-admin',compact( 'users','functions','messages'));  }
         elseif ($job == 2) {
-            return view('messages',compact( 'users','functions','messages')); }
+            return view('messages',compact( 'users','messages')); }
             else {
-            return view('dashboard',compact( 'users','functions'));
+            return view('messages',compact( 'users','messages'));
         }
 
     }

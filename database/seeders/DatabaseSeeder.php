@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'User',
             'email' => 'user@example.com',
             'password' => bcrypt('user1234'),
-            'job'=>1
+            'job'=>3
         ]);
         Incidence::create([
             'id'=>404,

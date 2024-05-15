@@ -50,6 +50,7 @@
                                 </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
+                                {{app("debugbar")->info($messages)}}
                                 @foreach($messages as $message)
                                     @php
                                         $aula = App\Models\Aula::find($message->id_aula);

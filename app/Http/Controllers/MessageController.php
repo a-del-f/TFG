@@ -17,14 +17,16 @@ class MessageController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->job){
-            $messages = Message::all()->where("user",auth()->user()->name);
-
-        }else {
+        if (auth()->user()->job == 3) {
+            $messages = Message::where("user_id", auth()->user()->id)->get();
+        } else {
             $messages = Message::all();
-        }$users=User::all();
-        return view("messages",compact('messages','users'));
+        }
+        $users = User::all();
+
+        return view("messages", compact('messages', 'users'));
     }
+
 
     public function create(){
         $incidencies=Incidence::all();
