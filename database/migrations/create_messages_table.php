@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("id_incidence")->nullable();
             $table->unsignedBigInteger("id_department")->nullable();
             $table->unsignedBigInteger("id_aula")->nullable();
-            $table->string("description")->nullable();
+            $table->text("description")->nullable();
             $table->dateTime('fecha_creacion')->nullable();
             $table->unsignedBigInteger("user")->nullable();
             $table->enum('estado', ['abierta', 'en proceso', 'solucionado']);

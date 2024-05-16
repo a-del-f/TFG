@@ -50,50 +50,51 @@
                                 </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                {{app("debugbar")->info($messages)}}
+                                {{ app("debugbar")->info($messages) }}
                                 @foreach($messages as $message)
                                     @php
                                         $aula = App\Models\Aula::find($message->id_aula);
                                         $department = App\Models\Department::find($message->id_department);
+                                        // Escapar el campo de descripción
+                                        $escapedDescription = htmlspecialchars($message->description, ENT_QUOTES, 'UTF-8');
                                     @endphp
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_message }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_incidence }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $department->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{  $aula->name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $aula->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->user }}</td>
-                                        @if(auth()->user()->job==1)
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->estado }}</td>@endif
-                                        @if(auth()->user()->job==2)<form method="post" action="{{ route('messages') }}" >
-                                            <td class="px-6 py-4 whitespace-nowrap">
-
+                                        @if(auth()->user()->job == 1)
+                                            <td class="px-6 py-4 whitespace-nowrap">{{ $message->estado }}</td>
+                                        @endif
+                                        @if(auth()->user()->job == 2)
+                                            <form method="post" action="{{ route('messages') }}">
+                                                <td class="px-6 py-4 whitespace-nowrap">
                                                     @csrf
                                                     @method("put")
-
                                                     <div class="select-wrapper mt-4">
-
-                                                <select name="estado" class="estado" required>
-                                                    <option  @if($message->estado=="abierta") selected @endif style=" color: whitesmoke; background-color: blue" value="abierta">abierta</option>
-                                                    <option @if($message->estado=="en proceso") selected @endif style=" color: black; background-color: yellow" value="en proceso">en proceso</option>
-                                                    <option @if($message->estado=="solucionado") selected @endif style=" color: black; background-color: greenyellow" value="solucionado">solucionado</option>
-                                                </select>
-                                            </div></td>
-                                            <td>
-                                                <div class="flex items-center justify-end mt-4">
-                                                    <input type="hidden" name="id_message" value=" {{$message->id_message}}">
-                                                    <x-primary-button >{{ __('Create') }}</x-primary-button>
-                                                </div>
-                                            </td>
+                                                        <select name="estado" class="estado" required>
+                                                            <option @if($message->estado=="abierta") selected @endif style="color: whitesmoke; background-color: blue" value="abierta">abierta</option>
+                                                            <option @if($message->estado=="en proceso") selected @endif style="color: black; background-color: yellow" value="en proceso">en proceso</option>
+                                                            <option @if($message->estado=="solucionado") selected @endif style="color: black; background-color: greenyellow" value="solucionado">solucionado</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="flex items-center justify-end mt-4">
+                                                        <input type="hidden" name="id_message" value="{{ $message->id_message }}">
+                                                        <x-primary-button>{{ __('Create') }}</x-primary-button>
+                                                    </div>
+                                                </td>
                                             </form>
                                         @endif
                                         <td>
-                                            <button class="open-modal-button" data-message-id="{{ $message->id_message }}">
+                                            <button class="open-modal-button" data-message-id="{{ $message->id_message }}" data-description="{{ $escapedDescription }}" data-user="{{ $message->user }}" data-fecha="{{ $message->fecha_creacion }}">
                                                 Ver tabla
                                             </button>
                                         </td>
                                     </tr>
                                 @endforeach
-
                                 </tbody>
                             </table>
                         @show
@@ -132,25 +133,16 @@
     <script>
         $(document).ready(function () {
             $('.open-modal-button').click(function () {
-                var messageId = $(this).data('message-id'); // Obtener el ID del mensaje
-
-                // Filtrar la tabla en la ventana emergente utilizando el ID del mensaje
-                var messages = @json($messages);
-                var filteredMessages = messages.filter(function (message) {
-                    return message.id_message == messageId; // Filtrar por ID del mensaje
-                });
+                var messageId = $(this).data('message-id');
+                var description = $(this).data('description');
+                var user = $(this).data('user');
+                var fecha = $(this).data('fecha');
 
                 // Mostrar la ventana emergente y actualizar el contenido de la tabla con los mensajes filtrados
                 $('#modal-tabla tbody').empty();
-                filteredMessages.forEach(function (message) {
-                    $('#modal-tabla tbody').append('<tr><td>' + message.fecha_creacion + '</td><td>' + message.description + '</td><td>' + message.user + '</td></tr>');
-                });
+                $('#modal-tabla tbody').append('<tr><td>' + fecha + '</td><td>' + description + '</td><td>' + user + '</td></tr>');
                 $('#modal-tabla').modal();
             });
         });
     </script>
-
-
-
-
 </x-app-layout>
