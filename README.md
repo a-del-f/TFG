@@ -1,65 +1,144 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Notifier
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Notifier es una aplicación para la gestión de incidencias centrada en centros educativos, diseñada para facilitar la comunicación y resolución de problemas. La aplicación soporta tres roles principales:
 
-## About Notifier
+1. **Admin**: Administrador con acceso completo para gestionar usuarios y configuraciones.
+2. **Técnico**: Personal técnico encargado de resolver las incidencias reportadas.
+3. **Usuario**: Usuarios regulares que pueden reportar incidencias y hacer seguimiento de las mismas.
 
-Par la primera vez que inicies la aplicación deberas de seguir estos pasos
-- Genera y configura el archivo .env siguiendo el ejemplo de el archivo .envexample.Especial incapié en los puertos usados.
-- Descarga composer y node  .
-- Usa el commando install composer.
-- Usa el commando php artisan migrate.
-- Usa el commando php artisan db:seed.
-- Usa el comando php artisan serve
-- Clica en el enlace que se genera y se te abrira el navegador con la aplicacion web
+## Requisitos Previos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Antes de iniciar la aplicación por primera vez, asegúrate de tener los siguientes requisitos previos instalados en tu sistema:
 
-## Learning Laravel
+- [PHP](https://www.php.net/) >= 7.4
+- [Composer](https://getcomposer.org/)
+- [Node.js](https://nodejs.org/en)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Instalación
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Sigue estos pasos para configurar e iniciar la aplicación:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Clona el Repositorio**
 
-## Laravel Sponsors
+    ```bash
+    git clone https://github.com/tu_usuario/notifier.git
+    cd notifier
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Configura el Archivo `.env`**
 
-### Premium Partners
+   Copia el archivo de ejemplo `.envexample` a `.env` y configura los valores necesarios, prestando especial atención a los puertos usados.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    ```bash
+    cp .envexample .env
+    ```
 
-## Contributing
+   Edita el archivo `.env` y ajusta las configuraciones según tu entorno, especialmente las variables de conexión a la base de datos.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. **Instala las Dependencias de PHP**
 
-## Code of Conduct
+   Asegúrate de tener Composer instalado y ejecuta el siguiente comando para instalar las dependencias de PHP:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    ```bash
+    composer install
+    ```
 
-## Security Vulnerabilities
+4. **Instala las Dependencias de Node.js**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   Asegúrate de tener Node.js instalado y ejecuta los siguientes comandos para instalar las dependencias de Node.js:
 
-## License
+    ```bash
+    npm install
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. **Ejecuta las Migraciones de Base de Datos**
+
+   Ejecuta las migraciones para crear las tablas necesarias en la base de datos:
+
+    ```bash
+    php artisan migrate
+    ```
+
+6. **Ejecuta los Seeders de la Base de Datos**
+
+   Llena la base de datos con datos de ejemplo utilizando los seeders:
+
+    ```bash
+    php artisan db:seed
+    ```
+
+7. **Compila los Recursos Estáticos**
+
+   Para compilar y optimizar los recursos estáticos de la aplicación:
+
+    ```bash
+    npm run dev
+    ```
+
+8. **Inicia el Servidor de Desarrollo**
+
+   Inicia el servidor de desarrollo de Laravel:
+
+    ```bash
+    php artisan serve
+    ```
+
+9. **Accede a la Aplicación**
+
+   Haz clic en el enlace generado en la consola, típicamente `http://127.0.0.1:8000`, para abrir la aplicación web en tu navegador.
+
+## Comandos Útiles
+
+- **Compilar Recursos Estáticos para Producción**
+
+  Para compilar y optimizar los recursos estáticos de la aplicación para producción:
+
+    ```bash
+    npm run production
+    ```
+
+- **Limpiar Caché**
+
+  Para limpiar la caché de la aplicación:
+
+    ```bash
+    php artisan cache:clear
+    php artisan config:clear
+    php artisan route:clear
+    php artisan view:clear
+    ```
+
+## Roles y Permisos
+
+La aplicación soporta los siguientes roles con sus respectivos permisos:
+
+1. **Admin**:
+    - Gestionar usuarios.
+    - Configurar la aplicación.
+    - Ver y gestionar todas las incidencias.
+
+2. **Técnico**:
+    - Ver y gestionar incidencias asignadas.
+    - Actualizar el estado de las incidencias.
+
+3. **Usuario**:
+    - Reportar nuevas incidencias.
+    - Ver el estado de sus propias incidencias.
+
+## Contribuir
+
+Si deseas contribuir a este proyecto, por favor sigue los pasos a continuación:
+
+1. Haz un fork del repositorio.
+2. Crea una rama nueva (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza tus cambios y haz commit (`git commit -am 'Agrega nueva funcionalidad'`).
+4. Sube los cambios a tu repositorio fork (`git push origin feature/nueva-funcionalidad`).
+5. Crea un Pull Request en el repositorio original.
+
+## Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más información.
+
+---
+
+¡Gracias por usar Notifier! Para cualquier pregunta o sugerencia, no dudes en contactar al equipo de desarrollo.

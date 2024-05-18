@@ -67,7 +67,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ asset('js/changeColor.js') }}" defer></script>
     <script>
+        var userJob = {{ auth()->user()->job }};
+
         $(document).ready(function() {
+            if (userJob == 3) {
+                $('#estado').prop('disabled', true);
+            }
+
             $('#id_department').change(function() {
                 var departmentId = $(this).val();
                 var $selectAula = $('#id_aula');
