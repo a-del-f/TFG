@@ -10,7 +10,7 @@ Notifier es una aplicación para la gestión de incidencias centrada en centros 
 
 Antes de iniciar la aplicación por primera vez, asegúrate de tener los siguientes requisitos previos instalados en tu sistema:
 
-- [PHP](https://www.php.net/) >= 7.4
+- [PHP](https://www.php.net/) >= 8.2.4
 - [Composer](https://getcomposer.org/)
 - [Node.js](https://nodejs.org/en)
 

@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::simplePaginate(1);
+        $users = User::simplePaginate(5);
 
         $job = auth()->user()->job;
 
