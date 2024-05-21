@@ -33,9 +33,10 @@
             <x-input-label for="id_department" :value="__('Department')"/>
             <select name="id_department" id="id_department" required>
                 @foreach($departments as $department)
-                    <option value="{{ $department->id }}">{{  $department->name }}</option>
+                    <option value="{{ $department->id }}">{{ $department->name }}</option>
                 @endforeach
             </select>
+            <input type="hidden" name="id_department_hidden" id="id_department_hidden" value="">
         </div>
 
         <!-- Aula -->
@@ -46,6 +47,7 @@
                     <option value="{{ $room->id }}">{{ $room->name }}</option>
                 @endforeach
             </select>
+            <input type="hidden" name="id_aula_hidden" id="id_aula_hidden" value="">
         </div>
 
         <!-- Estado -->
@@ -56,6 +58,7 @@
                 <option style="color: black; background-color: yellow" value="en proceso">en proceso</option>
                 <option style="color: black; background-color: greenyellow" value="solucionado">solucionado</option>
             </select>
+            <input type="hidden" name="estado_hidden" id="estado-hidden" value="">
         </div>
 
         <div class="flex items-center justify-end mt-4">
@@ -65,19 +68,24 @@
 
     <!-- jQuery and JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{{ asset('js/changeColor.js') }}" defer></script>
     <script>
-        var userJob = {{ auth()->user()->job }};
-
         $(document).ready(function() {
+            var userJob = {{ auth()->user()->job }};
+
             if (userJob == 3) {
                 $('#estado').prop('disabled', true);
+            }
+
+            function updateHiddenFields() {
+                $('#estado-hidden').val($('#estado').val());
+                $('#id_department_hidden').val($('#id_department').val());
+                $('#id_aula_hidden').val($('#id_aula').val());
             }
 
             $('#id_department').change(function() {
                 var departmentId = $(this).val();
                 var $selectAula = $('#id_aula');
-                var originalAulas = $selectAula.html(); // Save the original options
+                var originalAulas = $selectAula.html();
 
                 $selectAula.prop('disabled', true).data('original-html', originalAulas).html('<option value="">Cargando aulas...</option>');
 
@@ -90,10 +98,12 @@
                             $selectAula.append('<option value="' + aula.id + '">' + aula.name + '</option>');
                         });
                         $selectAula.prop('disabled', false).data('original-html', $selectAula.html());
+                        updateHiddenFields();
                     },
                     error: function(xhr, textStatus, errorThrown) {
                         console.error('Error al recuperar las aulas:', errorThrown);
                         $selectAula.prop('disabled', false).html($selectAula.data('original-html'));
+                        updateHiddenFields();
                     }
                 });
             });
@@ -113,18 +123,28 @@
                             $('#id_department').append('<option value="' + response.department_id + '">' + response.department_name + '</option>');
                             $('#id_aula').append('<option value="' + response.aula_id + '">' + response.aula_name + '</option>');
                             $('#estado').val(response.estado);
+                            updateHiddenFields();
                         },
                         error: function(xhr, textStatus, errorThrown) {
                             console.error('Error al recuperar los datos:', errorThrown);
                             $('#id_department').prop('disabled', initialDepartmentState).html(initialDepartmentState);
                             $('#id_aula').prop('disabled', initialAulaState).html(initialAulaState);
+                            updateHiddenFields();
                         }
                     });
                 } else {
-                    $('#id_department').prop('disabled', initialDepartmentState).html(initialDepartmentState);
-                    $('#id_aula').prop('disabled', initialAulaState).html(initialAulaState);
+                    $('#id_department').prop('disabled', false).html(initialDepartmentState);
+                    $('#id_aula').prop('disabled', false).html(initialAulaState);
+                    $('#estado').val('');
+                    updateHiddenFields();
                 }
             });
+
+            $('#estado').change(updateHiddenFields);
+            $('#id_department').change(updateHiddenFields);
+            $('#id_aula').change(updateHiddenFields);
+
+            updateHiddenFields();
         });
     </script>
 </x-guest-layout>

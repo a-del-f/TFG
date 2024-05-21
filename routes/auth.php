@@ -35,7 +35,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('aula',[\App\Http\Controllers\AulaController::class,'index'])->name('aula');
-    Route::post('aula',[\App\Http\Controllers\AulaController::class,'store']);
+    Route::post('aula',[\App\Http\Controllers\AulaController::class,'store'])->name('aula');
     Route::put("messages",[\App\Http\Controllers\MessageController::class,'change_estado'])->name("change_estado");
 
 
@@ -43,14 +43,14 @@ Route::middleware('auth')->group(function () {
     Route::get('messages',[\App\Http\Controllers\MessageController::class,'index'])->name('messages');
 
     Route::get('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete_index'])->name('delete_department');
-    Route::post('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete']);
+    Route::post('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete'])->name('delete_department');
 
 
     Route::get('create_message',[\App\Http\Controllers\MessageController::class,'create'])->name('create_message');
-    Route::post('create_message',[\App\Http\Controllers\MessageController::class,'store']);
+    Route::post('create_message', [App\Http\Controllers\MessageController::class, 'store'])->name('create_message');
 
     Route::get('departments', [DepartmentController::class,'index'])->name('departments');
-    Route::post('departments', [DepartmentController::class,'store']);
+    Route::post('departments', [DepartmentController::class,'store'])->name('departments');
 
 
     Route::get('register', [RegisteredUserController::class, 'create'])

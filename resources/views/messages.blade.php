@@ -113,9 +113,9 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Descripción</th>
-                        <th>Usuario</th>
+                        <th class="px-4">Fecha</th>
+                        <th class="px-4">Usuario</th>
+                        <th class="px-4">Descripción</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -140,9 +140,10 @@
 
                 // Mostrar la ventana emergente y actualizar el contenido de la tabla con los mensajes filtrados
                 $('#modal-tabla tbody').empty();
-                $('#modal-tabla tbody').append('<tr><td>' + fecha + '</td><td>' + description + '</td><td>' + user + '</td></tr>');
+                $('#modal-tabla tbody').append('<tr ><td class="px-4">' + fecha + '</td><td class="px-4">' + user + '</td><td class="px-4"><textarea id="description-textarea" class="block mt-1 w-full" name="description" required rows="4" readonly>' + description + '</textarea></td></tr>');
                 $('#modal-tabla').modal();
             });
         });
+
     </script>
 </x-app-layout>
