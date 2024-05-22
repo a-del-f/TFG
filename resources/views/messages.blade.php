@@ -3,6 +3,9 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <x-nav-link :href="route('incidences')">
+                {{ __('Listado de incidencias incidencias') }}
+            </x-nav-link>
             <x-nav-link :href="route('create_message')">
                 {{ __('Crear mensajes') }}
             </x-nav-link>
@@ -43,30 +46,55 @@
                                         Estado
                                     </th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
+                                {{ app("debugbar")->info($messages) }}
                                 @foreach($messages as $message)
                                     @php
                                         $aula = App\Models\Aula::find($message->id_aula);
                                         $department = App\Models\Department::find($message->id_department);
+                                        // Escapar el campo de descripción
+                                        $escapedDescription = htmlspecialchars($message->description, ENT_QUOTES, 'UTF-8');
                                     @endphp
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->id }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_message }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_incidence }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $department->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{  $aula->name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $aula->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->user }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->estado }}</td>
+                                        @if(auth()->user()->job == 1)
+                                            <td class="px-6 py-4 whitespace-nowrap">{{ $message->estado }}</td>
+                                        @endif
+                                        @if(auth()->user()->job == 2)
+                                            <form method="post" action="{{ route('messages') }}">
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    @csrf
+                                                    @method("put")
+                                                    <div class="select-wrapper mt-4">
+                                                        <select name="estado" class="estado" required>
+                                                            <option @if($message->estado=="abierta") selected @endif style="color: whitesmoke; background-color: blue" value="abierta">abierta</option>
+                                                            <option @if($message->estado=="en proceso") selected @endif style="color: black; background-color: yellow" value="en proceso">en proceso</option>
+                                                            <option @if($message->estado=="solucionado") selected @endif style="color: black; background-color: greenyellow" value="solucionado">solucionado</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="flex items-center justify-end mt-4">
+                                                        <input type="hidden" name="id_message" value="{{ $message->id_message }}">
+                                                        <x-primary-button>{{ __('Create') }}</x-primary-button>
+                                                    </div>
+                                                </td>
+                                            </form>
+                                        @endif
                                         <td>
-                                            <button class="btn btn-primary open-modal-button"
-                                                    data-message-id="{{ $message->id }}" data-aula-id="{{  $aula->id }}"
-                                                    data-department-id="{{ $department->id }}">Ver tabla
+                                            <button class="open-modal-button" data-message-id="{{ $message->id_message }}" data-description="{{ $escapedDescription }}" data-user="{{ $message->user }}" data-fecha="{{ $message->fecha_creacion }}">
+                                                Ver tabla
                                             </button>
                                         </td>
                                     </tr>
                                 @endforeach
-
                                 </tbody>
                             </table>
                         @show
@@ -85,9 +113,9 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Descripción</th>
-                        <th>Usuario</th>
+                        <th class="px-4">Fecha</th>
+                        <th class="px-4">Usuario</th>
+                        <th class="px-4">Descripción</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -100,28 +128,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <script src="{{ asset('js/changeColor.js') }}" defer></script>
+
     <script>
         $(document).ready(function () {
             $('.open-modal-button').click(function () {
-                var aulaId = $(this).data('aula-id');
-                var departmentId = $(this).data('department-id');
-
-                // Filtrar la tabla en la ventana emergente utilizando las ID de departamento y aula
-                var messages = @json($messages);
-                var filteredMessages = messages.filter(function (message) {
-                    return message.id_aula == aulaId && message.id_department == departmentId;
-                });
+                var messageId = $(this).data('message-id');
+                var description = $(this).data('description');
+                var user = $(this).data('user');
+                var fecha = $(this).data('fecha');
 
                 // Mostrar la ventana emergente y actualizar el contenido de la tabla con los mensajes filtrados
                 $('#modal-tabla tbody').empty();
-                filteredMessages.forEach(function (message) {
-                    $('#modal-tabla tbody').append('<tr><td>' + message.fecha_creacion + '</td><td>' + message.description + '</td><td>' + message.user + '</td></tr>');
-                });
+                $('#modal-tabla tbody').append('<tr ><td class="px-4">' + fecha + '</td><td class="px-4">' + user + '</td><td class="px-4"><textarea id="description-textarea" class="block mt-1 w-full" name="description" required rows="4" readonly>' + description + '</textarea></td></tr>');
                 $('#modal-tabla').modal();
             });
         });
+
     </script>
-
-
-
 </x-app-layout>

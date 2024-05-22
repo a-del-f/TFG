@@ -16,10 +16,14 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" id="nav-link">
+                        {{ __('Hola') }}
                     </x-nav-link>
+                    <input type="text" id="nav-input" class="hidden">
+                    @if(auth()->user()->job==1) @endif
+                    <button id="toggle-button">Editar</button>
                 </div>
+
             </div>
 
             <!-- Settings Dropdown -->
@@ -101,4 +105,66 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var $navLink = $('#nav-link');
+            var $navInput = $('#nav-input');
+            var $toggleButton = $('#toggle-button');
+
+            // Cargar el estado inicial del texto desde localStorage
+            if (localStorage.getItem('navText')) {
+                $navLink.text(localStorage.getItem('navText'));
+            }
+
+            // Cargar el estado inicial de la edición desde localStorage
+            if (localStorage.getItem('isEditing') === 'true') {
+                $navLink.addClass('hidden');
+                $navInput.val($navLink.text()).removeClass('hidden').focus();
+                $toggleButton.text('Guardar');
+            } else {
+                $navLink.removeClass('hidden');
+                $navInput.addClass('hidden');
+                $toggleButton.text('Editar');
+            }
+
+            $toggleButton.on('click', function() {
+                if ($navLink.is(':visible')) {
+                    // Cambiar de texto a input
+                    $navInput.val($navLink.text());
+                    $navLink.addClass('hidden');
+                    $navInput.removeClass('hidden').focus();
+                    $toggleButton.text('Guardar');
+                    localStorage.setItem('isEditing', 'true');
+                } else {
+                    // Cambiar de input a texto
+                    var newText = $navInput.val();
+                    $navLink.text(newText);
+                    $navInput.addClass('hidden');
+                    $navLink.removeClass('hidden');
+                    $toggleButton.text('Editar');
+                    localStorage.setItem('isEditing', 'false');
+                    localStorage.setItem('navText', newText);
+                }
+            });
+
+            // Cambiar de input a texto al presionar Enter
+            $navInput.on('keypress', function(e) {
+                if (e.which == 13) { // Enter key
+                    var newText = $navInput.val();
+                    $navLink.text(newText);
+                    $navInput.addClass('hidden');
+                    $navLink.removeClass('hidden');
+                    $toggleButton.text('Editar');
+                    localStorage.setItem('isEditing', 'false');
+                    localStorage.setItem('navText', newText);
+                }
+            });
+        });
+    </script>
+
+    </script>
+
+
 </nav>

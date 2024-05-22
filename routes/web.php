@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AulaController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use DebugBar\DebugBar;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ Route::get('/dashboard', function () {
 
 Route::put("redirect",[UserController::class,'change_user'])->name("redirect");
 Route::delete("redirect",[UserController::class,'eleminar'])->name("redirect");
+Route::get('message/details/{id}', [MessageController::class,'details'])->name('message.details');
 
 Route::get('/aulas/{department}', [AulaController::class, 'getAulasByDepartment'])->name('aulas.department');
 

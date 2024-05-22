@@ -11,22 +11,24 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::simplePaginate(1);
+        $users = User::simplePaginate(5);
 
         $job = auth()->user()->job;
 
-        $messages=Message::all();
+        if (auth()->user()->job == 3) {
+            $messages = Message::where("user", auth()->user()->id)->get();
+        } else {
+            $messages = Message::all();
+        }
 
 
     $functions=Job::all();
         if ($job == 1) {
             return view('super-admin',compact( 'users','functions','messages'));  }
         elseif ($job == 2) {
-            return view('admin',compact( 'users','functions','messages'));
-        } elseif ($job == 3) {
-            return view('tech',compact( 'users','functions','messages'));
-        } else {
-            return view('dashboard',compact( 'users','functions'));
+            return view('messages',compact( 'users','messages')); }
+            else {
+            return view('messages',compact( 'users','messages'));
         }
 
     }

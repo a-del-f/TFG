@@ -13,9 +13,7 @@
             <x-nav-link :href="route('delete_department')">
                 {{ __('Eleminar Departamentos') }}
             </x-nav-link>
-            <x-nav-link :href="route('incidences')">
-                {{ __('Listado de incidencias incidencias') }}
-            </x-nav-link>
+
             <x-nav-link :href="route('messages')">
                 {{ __('Ver mensajes('.count ($messages).')') }}
 
