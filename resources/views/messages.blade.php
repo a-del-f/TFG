@@ -3,18 +3,28 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            <x-nav-link :href="route('incidences')">
-                {{ __('Listado de incidencias incidencias') }}
-            </x-nav-link>
             <x-nav-link :href="route('create_message')">
-                {{ __('Crear mensajes') }}
+                {{ __('Crear incidencias') }}
             </x-nav-link>
+            @if(auth()->user()->job!=3)
+            <x-nav-link :href="route('incidences')">
+                {{ __('Tipos de incidencias') }}
+            </x-nav-link>
+            @endif
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="flex flex-wrap">
+                    @foreach($messagesByState as $estado => $count)
+                        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-2 m-2">
+                            <div><strong>Estado:</strong> {{ $estado }}</div>
+                            <div><strong>Cantidad de Mensajes:</strong> {{ $count }}</div>
+                        </div>
+                    @endforeach
+                </div>
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         @section('tabla')
@@ -83,7 +93,9 @@
                                                 <td>
                                                     <div class="flex items-center justify-end mt-4">
                                                         <input type="hidden" name="id_message" value="{{ $message->id_message }}">
-                                                        <x-primary-button>{{ __('Create') }}</x-primary-button>
+                                                        <button type="submit">
+                                                            {{ __('Create') }}
+                                                        </button>
                                                     </div>
                                                 </td>
                                             </form>
@@ -134,16 +146,27 @@
         $(document).ready(function () {
             $('.open-modal-button').click(function () {
                 var messageId = $(this).data('message-id');
-                var description = $(this).data('description');
-                var user = $(this).data('user');
-                var fecha = $(this).data('fecha');
+                var messages = []; // Array para almacenar la información de los mensajes
+
+                // Recopilar información de los mensajes con la misma id_message
+                $('.open-modal-button').each(function () {
+                    if ($(this).data('message-id') === messageId) {
+                        messages.push({
+                            fecha: $(this).data('fecha'),
+                            user: $(this).data('user'),
+                            description: $(this).data('description')
+                        });
+                    }
+                });
 
                 // Mostrar la ventana emergente y actualizar el contenido de la tabla con los mensajes filtrados
                 $('#modal-tabla tbody').empty();
-                $('#modal-tabla tbody').append('<tr ><td class="px-4">' + fecha + '</td><td class="px-4">' + user + '</td><td class="px-4"><textarea id="description-textarea" class="block mt-1 w-full" name="description" required rows="4" readonly>' + description + '</textarea></td></tr>');
+                messages.forEach(function (message) {
+                    $('#modal-tabla tbody').append('<tr ><td class="px-4">' + message.fecha + '</td><td class="px-4">' + message.user + '</td><td class="px-4"><textarea class="block mt-1 w-full" name="description" required rows="4" readonly>' + message.description + '</textarea></td></tr>');
+                });
                 $('#modal-tabla').modal();
             });
         });
-
     </script>
+
 </x-app-layout>

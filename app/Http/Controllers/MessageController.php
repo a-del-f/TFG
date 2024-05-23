@@ -19,12 +19,21 @@ class MessageController extends Controller
     {
         if (auth()->user()->job == 3) {
             $messages = Message::where("user", auth()->user()->id)->get();
+            $messagesByState = Message::where('user', auth()->user()->id)
+                ->get()
+                ->groupBy('estado')
+                ->map(function ($group) {
+                    return $group->pluck('id_message')->count();
+                });
         } else {
             $messages = Message::all();
+            $messagesByState = Message::all()->groupBy('estado')->map(function ($group) {
+                return $group->unique('id_message')->count();
+            });
         }
         $users = User::all();
 
-        return view("messages", compact('messages', 'users'));
+        return view("messages", compact('messages', 'users','messagesByState'));
     }
 
 
@@ -77,20 +86,25 @@ class MessageController extends Controller
     }
     public function details($id)
     {
-        $message = Message::with(['department', 'aula'])->where("id_message", $id)->first();
+        $message = Message::with(['department', 'aula', 'incidences'])->where("id_message", $id)->first();
 
         if (!$message) {
             return response()->json(['error' => 'Message not found'], 404);
         }
+
+        $incidence = $message->incidences; // Obtener la relación de incidencias
 
         return response()->json([
             'department_id' => $message->department->id,
             'department_name' => $message->department->name,
             'aula_id' => $message->aula->id,
             'aula_name' => $message->aula->name,
-            'estado'=>$message->estado
+            'estado' => $message->estado,
+            'incidence_name' => $incidence ? $incidence->description : "0", // Acceder al nombre de la incidencia
+            'incidence_id' => $incidence ? $incidence->id : 0, // Acceder al ID de la incidencia
         ]);
     }
+
 
 
 

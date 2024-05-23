@@ -15,7 +15,7 @@
             </x-nav-link>
 
             <x-nav-link :href="route('messages')">
-                {{ __('Ver mensajes('.count ($messages).')') }}
+                {{ __('Ver mensajes') }}
 
             </x-nav-link>
         </h2>

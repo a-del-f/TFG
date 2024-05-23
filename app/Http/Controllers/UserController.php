@@ -26,9 +26,10 @@ class UserController extends Controller
         if ($job == 1) {
             return view('super-admin',compact( 'users','functions','messages'));  }
         elseif ($job == 2) {
-            return view('messages',compact( 'users','messages')); }
+            return redirect()->route('messages');
+        }
             else {
-            return view('messages',compact( 'users','messages'));
+                return redirect()->route('messages');
         }
 
     }
