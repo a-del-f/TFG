@@ -1,22 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            <x-nav-link :href="route('register')">
-                {{ __('Registrar Usuarios') }}
+            <x-nav-link :href="route('register')" title="Registrar Usuarios">
+                <img src="{{ asset('icons/person-fill-add.svg') }}" id="logo-img" style="display: block;" width="30px" alt="Registrar Usuarios">
             </x-nav-link>
-            <x-nav-link :href="route('departments')">
-                {{ __('Registrar Departamentos') }}
+            <x-nav-link :href="route('departments')" title="Registrar Departamentos">
+                <img src="{{ asset('icons/building-fill-add.svg') }}" id="logo-img" style="display: block;" width="30px" alt="Registrar Departamentos">
             </x-nav-link>
-            <x-nav-link :href="route('aula')">
-                {{ __('Registrar Aula') }}
+            <x-nav-link :href="route('delete_department')" title="Eliminar Departamentos">
+                <img src="{{ asset('icons/building-fill-dash.svg') }}" id="logo-img" style="display: block;" width="30px" alt="Eliminar Departamentos">
             </x-nav-link>
-            <x-nav-link :href="route('delete_department')">
-                {{ __('Eleminar Departamentos') }}
+            <x-nav-link :href="route('aula')" title="Registrar Aula">
+                <img src="{{ asset('icons/door-open-fill.svg') }}" id="logo-img" style="display: block;" width="30px" alt="Registrar Aula">
             </x-nav-link>
-
-            <x-nav-link :href="route('messages')">
-                {{ __('Ver mensajes') }}
-
+            <x-nav-link :href="route('messages')" title="Ver mensajes">
+                <img src="{{ asset('icons/envelope-paper-fill.svg') }}" id="logo-img" style="display: block;" width="30px" alt="Ver mensajes">
             </x-nav-link>
         </h2>
     </x-slot>
@@ -42,11 +40,15 @@
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Apellido
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Email
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Funcion
+                                    Función
                                 </th>
                                 <th></th>
                             </tr>
@@ -60,6 +62,7 @@
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->id }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->surname }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $users[$i]->email }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">
 

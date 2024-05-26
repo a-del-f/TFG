@@ -13,9 +13,10 @@ class Incidence extends Model // Extiende la clase Model
 {
     use HasFactory, Notifiable;
     public $timestamps = false;
+    protected $table = 'incidences';
 
     protected $fillable = [
         'id',
-        'name',
+        'description',
     ];
 }

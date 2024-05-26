@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory()->create([
             'name' => 'User',
+            'surname'=>'user',
             'email' => 'user@example.com',
             'password' => bcrypt('user1234'),
             'job'=>3
@@ -61,6 +62,10 @@ class DatabaseSeeder extends Seeder
         Incidence::create([
             'id'=>3010,
             'description'=>"Error en el SO"
+        ]);
+        Incidence::create([
+            'id'=>5050,
+            'description'=>"Otro"
         ]);
     }
 }

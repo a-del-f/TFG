@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" id="logo-link">
-                        <img src="{{ asset('img/volver.png') }}" id="logo-img" style="display: block;" width="50px" alt="Descripción de la imagen">
+                        <img src="{{ asset('img/logo.png') }}" id="logo-img" style="display: block;" width="50px" alt="Descripción de la imagen">
                     </a>
                     <input type="file" id="logo-input" class="hidden">
                     <button id="logo-toggle-button">Editar Logo</button>
