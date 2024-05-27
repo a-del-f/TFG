@@ -45,11 +45,9 @@ Sigue estos pasos para configurar e iniciar la aplicación:
 
 4. **Instala las Dependencias de Node.js**
 
-   Asegúrate de tener Node.js instalado y ejecuta los siguientes comandos para instalar las dependencias de Node.js:
+   Asegúrate de tener Node.js instalado como mínimo version 20 y en npm como mínimo la version 10.8.0
 
-    ```bash
-    npm install
-    ```
+
 
 5. **Ejecuta las Migraciones de Base de Datos**
 
@@ -125,15 +123,7 @@ La aplicación soporta los siguientes roles con sus respectivos permisos:
     - Reportar nuevas incidencias.
     - Ver el estado de sus propias incidencias.
 
-## Contribuir
 
-Si deseas contribuir a este proyecto, por favor sigue los pasos a continuación:
-
-1. Haz un fork del repositorio.
-2. Crea una rama nueva (`git checkout -b feature/nueva-funcionalidad`).
-3. Realiza tus cambios y haz commit (`git commit -am 'Agrega nueva funcionalidad'`).
-4. Sube los cambios a tu repositorio fork (`git push origin feature/nueva-funcionalidad`).
-5. Crea un Pull Request en el repositorio original.
 
 ## Licencia
 
