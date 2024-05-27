@@ -11,7 +11,7 @@
 
         <!-- Email Address -->
         <div class="mt-4">
-            <x-input-label for="department" :value="__('department')"/>
+            <x-input-label for="department" :value="__('Departmento')"/>
             <select name="department" id="department" required>
                 @for($i=0;$i<count($department);$i++)
 

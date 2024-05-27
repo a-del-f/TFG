@@ -14,19 +14,23 @@
         </div>
 
         <div class="mt-4">
+            <x-input-label for="id_incidence" :value="__('Incidence')"/>
+            <select name="id_incidence" id="id_incidence">
+                @foreach($incidencies as $incidence)
+                    <option value="{{ $incidence->id }}">{{  $incidence->description }}</option>
+                @endforeach
+            </select>
+            <input type="hidden" name="id_incidence_hidden" id="id_incidence_hidden" value="">
+
+        </div>
+
+        <div class="mt-4">
             <x-input-label for="description" :value="__('Description')"/>
             <textarea id="description" class="block mt-1 w-full" name="description" required rows="4"></textarea>
         </div>
 
         <!-- Incidence -->
-        <div class="mt-4">
-            <x-input-label for="id_incidence" :value="__('Incidence')"/>
-            <select name="id_incidence" id="id_incidence">
-                @foreach($incidencies as $incidence)
-                    <option value="{{ $incidence->id }}">{{ $incidence->id . " " . $incidence->description }}</option>
-                @endforeach
-            </select>
-        </div>
+
 
         <!-- Department -->
         <div class="mt-4">
@@ -70,6 +74,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
+
+            var initialDepartmentState = $('#id_department').html();
+            var initialAulaState =  $('#id_aula').html();
+            var initialIncidenceState =  $('#id_incidence').html();
+
             var userJob = {{ auth()->user()->job }};
 
             if (userJob == 3) {
@@ -80,6 +89,8 @@
                 $('#estado-hidden').val($('#estado').val());
                 $('#id_department_hidden').val($('#id_department').val());
                 $('#id_aula_hidden').val($('#id_aula').val());
+                $('#id_incidence_hidden').val($('#id_incidence').val());
+
             }
 
             $('#id_department').change(function() {
@@ -110,8 +121,7 @@
 
             $('#id_message').change(function() {
                 var messageId = $(this).val();
-                var initialDepartmentState = $('#id_department').prop('disabled') && $('#id_department').html();
-                var initialAulaState = $('#id_aula').prop('disabled') && $('#id_aula').html();
+
 
                 if (messageId) {
                     $.ajax({
@@ -120,8 +130,11 @@
                         success: function(response) {
                             $('#id_department').prop('disabled', true).empty();
                             $('#id_aula').prop('disabled', true).empty();
+                            $('#id_incidence').prop('disabled', true).empty();
+                            $('#estado').prop('disabled', true);
                             $('#id_department').append('<option value="' + response.department_id + '">' + response.department_name + '</option>');
                             $('#id_aula').append('<option value="' + response.aula_id + '">' + response.aula_name + '</option>');
+                            $('#id_incidence').append('<option value="' + response.incidence_id + '">' + response.incidence_name + '</option>');
                             $('#estado').val(response.estado);
                             updateHiddenFields();
                         },
@@ -135,7 +148,8 @@
                 } else {
                     $('#id_department').prop('disabled', false).html(initialDepartmentState);
                     $('#id_aula').prop('disabled', false).html(initialAulaState);
-                    $('#estado').val('');
+                    $('#id_incidence').prop('disabled', false).html(initialIncidenceState);
+                    $('#estado').prop('disabled',false).val('abierta'); // Establecer el estado en "abierta" cuando messageId es null
                     updateHiddenFields();
                 }
             });
@@ -143,6 +157,7 @@
             $('#estado').change(updateHiddenFields);
             $('#id_department').change(updateHiddenFields);
             $('#id_aula').change(updateHiddenFields);
+            $('#id_incidence').change(updateHiddenFields);
 
             updateHiddenFields();
         });

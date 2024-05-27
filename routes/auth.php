@@ -38,6 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::post('aula',[\App\Http\Controllers\AulaController::class,'store'])->name('aula');
     Route::put("messages",[\App\Http\Controllers\MessageController::class,'change_estado'])->name("change_estado");
 
+    Route::get('create_incidence',[\App\Http\Controllers\IncidenceController::class,'create'])->name('create_incidence');
+    Route::post('create_incidence',[\App\Http\Controllers\IncidenceController::class,'store'])->name('create_incidence');
+
 
     Route::get('incidences',[\App\Http\Controllers\IncidenceController::class,'index'])->name('incidences');
     Route::get('messages',[\App\Http\Controllers\MessageController::class,'index'])->name('messages');

@@ -7,7 +7,7 @@
 
         <!-- Name -->
         <div>
-            <x-input-label for="department" :value="__('Department ')" />
+            <x-input-label for="department" :value="__('Departmento')" />
 
             <select  id="department" class="block mt-1 w-full" type="text" name="department"  >
                 @foreach($departments as $department)

@@ -16,6 +16,9 @@ class Job extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $table = 'jobs';
+
     protected $fillable = ['id',
         'name',
 

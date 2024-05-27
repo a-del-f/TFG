@@ -3,27 +3,24 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <x-nav-link :href="route('dashboard')">
-                    <img src="{{ asset('img/volver.png') }}" style="display: block;" width="50px"  alt="Descripción de la imagen">
-                </x-nav-link>
-
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <a href="{{ route('dashboard') }}" id="logo-link">
+                        <img src="{{ asset('img/logo.png') }}" id="logo-img" style="display: block;" width="50px" alt="Descripción de la imagen">
                     </a>
+                    <input type="file" id="logo-input" class="hidden">
+                    <button id="logo-toggle-button">Editar Logo</button>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" id="nav-link">
-                        {{ __('Hola') }}
+                        {{ __('Dashboard') }}
                     </x-nav-link>
                     <input type="text" id="nav-input" class="hidden">
                     @if(auth()->user()->job==1) @endif
                     <button id="toggle-button">Editar</button>
                 </div>
-
             </div>
 
             <!-- Settings Dropdown -->
@@ -35,7 +32,7 @@
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </div>
                         </button>
@@ -51,7 +48,7 @@
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                             onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -97,7 +94,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                                           onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
@@ -106,12 +103,16 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             var $navLink = $('#nav-link');
             var $navInput = $('#nav-input');
             var $toggleButton = $('#toggle-button');
+
+            var $logoLink = $('#logo-link');
+            var $logoImg = $('#logo-img');
+            var $logoInput = $('#logo-input');
+            var $logoToggleButton = $('#logo-toggle-button');
 
             // Cargar el estado inicial del texto desde localStorage
             if (localStorage.getItem('navText')) {
@@ -161,10 +162,26 @@
                     localStorage.setItem('navText', newText);
                 }
             });
+
+            // Editar logo
+            $logoToggleButton.on('click', function() {
+                $logoInput.click();
+            });
+
+            $logoInput.on('change', function(e) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var newLogo = e.target.result;
+                    $logoImg.attr('src', newLogo);
+                    localStorage.setItem('logoSrc', newLogo);
+                }
+                reader.readAsDataURL(this.files[0]);
+            });
+
+            // Cargar el logo desde localStorage
+            if (localStorage.getItem('logoSrc')) {
+                $logoImg.attr('src', localStorage.getItem('logoSrc'));
+            }
         });
     </script>
-
-    </script>
-
-
 </nav>
