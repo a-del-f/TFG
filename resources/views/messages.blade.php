@@ -3,7 +3,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            <x-nav-link :href="route('create_message')" title="Crear incidencias">
+            <x-nav-link :href="route('creator_message')" title="Crear incidencias">
                 <img src="{{ asset('icons/envelope-plus-fill.svg') }}" id="logo-img" style="display: block;" width="30px" alt="Crear incidencias">
 
             </x-nav-link>
@@ -92,7 +92,10 @@
                                         $escapedDescription = htmlspecialchars($message->description, ENT_QUOTES, 'UTF-8');
                                     @endphp
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_message }}</td>
+
+                                        <x-nav-link :href="route('creator_message',$message->id_message)" title="Crear incidencias">
+                                            <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_message }}</td>
+                                        </x-nav-link>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_incidence }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $department->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $aula->name }}</td>
@@ -161,7 +164,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <script src="{{ asset('js/changeColor.js') }}" defer></script>
-
+<!--
     <script>
         $(document).ready(function () {
             $('.open-modal-button').click(function () {
@@ -186,6 +189,70 @@
                 });
                 $('#modal-tabla').modal();
             });
+        });
+    </script>-->
+    <script>
+        $(document).ready(function() {
+            var initialDepartmentState = $('#id_department').html();
+            var initialAulaState = $('#id_aula').html();
+            var initialIncidenceState = $('#id_incidence').html();
+            var userJob = {{ auth()->user()->job }};
+
+            // Función para actualizar los campos ocultos
+            function updateHiddenFields() {
+                $('#estado-hidden').val($('#estado').val());
+                $('#id_department_hidden').val($('#id_department').val());
+                $('#id_aula_hidden').val($('#id_aula').val());
+                $('#id_incidence_hidden').val($('#id_incidence').val());
+            }
+
+            // Función para manejar la lógica basada en el valor de id_message
+            function handleIdMessageChange() {
+                var messageId = $('#id_message').val();
+                if (messageId) {
+                    $.ajax({
+                        url: '{{ route("message.details", ":id") }}'.replace(':id', messageId),
+                        type: 'GET',
+                        success: function(response) {
+                            $('#id_department').prop('disabled', true).empty();
+                            $('#id_aula').prop('disabled', true).empty();
+                            $('#id_incidence').prop('disabled', true).empty();
+                            $('#estado').prop('disabled', true);
+                            $('#id_department').append('<option value="' + response.department_id + '">' + response.department_name + '</option>');
+                            $('#id_aula').append('<option value="' + response.aula_id + '">' + response.aula_name + '</option>');
+                            $('#id_incidence').append('<option value="' + response.incidence_id + '">' + response.incidence_name + '</option>');
+                            $('#estado').val(response.estado);
+                            updateHiddenFields();
+                        },
+                        error: function(xhr, textStatus, errorThrown) {
+                            console.error('Error al recuperar los datos:', errorThrown);
+                            $('#id_department').prop('disabled', initialDepartmentState).html(initialDepartmentState);
+                            $('#id_aula').prop('disabled', initialAulaState).html(initialAulaState);
+                            updateHiddenFields();
+                        }
+                    });
+                } else {
+                    $('#id_department').prop('disabled', false).html(initialDepartmentState);
+                    $('#id_aula').prop('disabled', false).html(initialAulaState);
+                    $('#id_incidence').prop('disabled', false).html(initialIncidenceState);
+                    $('#estado').prop('disabled',false).val('abierta'); // Establecer el estado en "abierta" cuando messageId es null
+                    updateHiddenFields();
+                }
+            }
+
+            // Ejecutar la función al cargar la página
+            handleIdMessageChange();
+
+            // Habilitar o deshabilitar el campo estado según el trabajo del usuario
+            if (userJob == 3) {
+                $('#estado').prop('disabled', true);
+            }
+
+            // Manejar la actualización de los campos ocultos en cada cambio
+            $('#estado').change(updateHiddenFields);
+            $('#id_department').change(updateHiddenFields);
+            $('#id_aula').change(updateHiddenFields);
+            $('#id_incidence').change(updateHiddenFields);
         });
     </script>
 

@@ -16,12 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string("surname")->default("");
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger("job");
 
             $table->rememberToken();
-            $table->timestamps();
             $table->foreign("job")->references("id")->on("jobs");
 
         });

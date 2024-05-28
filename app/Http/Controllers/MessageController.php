@@ -52,12 +52,12 @@ class MessageController extends Controller
     }
 
 
-    public function create(){
+    public function create(Request $request, $id=null){
         $incidencies=Incidence::all();
         $departments=Department::all();
         $messageIds = Message::distinct()->pluck('id_message');
         $aula=Aula::all();
-        return view("create_message",compact("messageIds","incidencies","departments","aula"));
+        return view("create_message",compact("id","messageIds","incidencies","departments","aula"));
 
     }
     public function store(Request $request): RedirectResponse

@@ -4,13 +4,9 @@
 
         <!-- Description -->
         <div class="mt-4">
-            <x-input-label for="id_message" :value="__('Id de hilo')"/>
-            <select name="id_message" id="id_message">
-                <option value="{{ null }}">Nuevo hilo</option>
-                @foreach($messageIds as $message)
-                    <option value="{{ $message }}">{{ $message }}</option>
-                @endforeach
-            </select>
+
+            <input type="hidden" name="id_message" id="id_message" value="{{$id}}">
+
         </div>
 
         <div class="mt-4">

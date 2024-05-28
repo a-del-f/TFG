@@ -15,10 +15,11 @@ Route::get('/dashboard', function () {
 
         return app(UserController::class)->index(); // Llama al método index() del UserController
 
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::put("redirect",[UserController::class,'change_user'])->name("redirect");
-Route::delete("redirect",[UserController::class,'eleminar'])->name("redirect");
+Route::put("redirect",[UserController::class,'change_user'])->name("redirect")->middleware("check.job:Admin");
+Route::delete("redirect",[UserController::class,'eleminar'])->name("redirect")->middleware("check.job:Admin");
+
 Route::get('message/details/{id}', [MessageController::class,'details'])->name('message.details');
 
 Route::get('/aulas/{department}', [AulaController::class, 'getAulasByDepartment'])->name('aulas.department');

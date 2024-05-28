@@ -34,30 +34,30 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('aula',[\App\Http\Controllers\AulaController::class,'index'])->name('aula');
-    Route::post('aula',[\App\Http\Controllers\AulaController::class,'store'])->name('aula');
-    Route::put("messages",[\App\Http\Controllers\MessageController::class,'change_estado'])->name("change_estado");
+    Route::get('aula',[\App\Http\Controllers\AulaController::class,'index'])->name('aula')->middleware("check.job:Admin");
+    Route::post('aula',[\App\Http\Controllers\AulaController::class,'store'])->name('aula')->middleware("check.job:Admin");
+    Route::put("messages",[\App\Http\Controllers\MessageController::class,'change_estado'])->name("change_estado")->middleware("check.job:Technician");
 
-    Route::get('create_incidence',[\App\Http\Controllers\IncidenceController::class,'create'])->name('create_incidence');
-    Route::post('create_incidence',[\App\Http\Controllers\IncidenceController::class,'store'])->name('create_incidence');
+    Route::get('create_incidence',[\App\Http\Controllers\IncidenceController::class,'create'])->name('create_incidence')->middleware("check.job:Admin");
+    Route::post('create_incidence',[\App\Http\Controllers\IncidenceController::class,'store'])->name('create_incidence')->middleware("check.job:Admin");
 
 
     Route::get('incidences',[\App\Http\Controllers\IncidenceController::class,'index'])->name('incidences');
     Route::get('messages',[\App\Http\Controllers\MessageController::class,'index'])->name('messages');
 
-    Route::get('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete_index'])->name('delete_department');
-    Route::post('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete'])->name('delete_department');
+    Route::get('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete_index'])->name('delete_department')->middleware("check.job:Admin");
+    Route::post('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete'])->name('delete_department')->middleware("check.job:Admin");
 
 
-    Route::get('create_message',[\App\Http\Controllers\MessageController::class,'create'])->name('create_message');
+    Route::get('create_message/{id?}', [\App\Http\Controllers\MessageController::class, 'create'])->name('creator_message');
     Route::post('create_message', [App\Http\Controllers\MessageController::class, 'store'])->name('create_message');
 
-    Route::get('departments', [DepartmentController::class,'index'])->name('departments');
-    Route::post('departments', [DepartmentController::class,'store'])->name('departments');
+    Route::get('departments', [DepartmentController::class,'index'])->name('departments')->middleware("check.job:Admin");
+    Route::post('departments', [DepartmentController::class,'store'])->name('departments')->middleware("check.job:Admin");
 
 
     Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
+        ->name('register')->middleware("check.job:Admin");
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 

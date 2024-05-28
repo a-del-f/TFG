@@ -33,16 +33,7 @@ class UserController extends Controller
         }
 
     }
-public function redirect(Request $request)
-{
-if($request->input("btn")){
-    $this->change_user($request);
-}
-if($request->input("eleminar")){
 
-    $this->eleminar($request);
-}
-}
     public function change_user(Request $request)
     {
         app("debugbar")->info($request);
