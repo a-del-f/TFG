@@ -115,8 +115,7 @@
                 });
             });
 
-            $('#id_message').change(function() {
-                var messageId = $(this).val();
+                var messageId = $('#id_message').val();
 
 
                 if (messageId) {
@@ -148,7 +147,6 @@
                     $('#estado').prop('disabled',false).val('abierta'); // Establecer el estado en "abierta" cuando messageId es null
                     updateHiddenFields();
                 }
-            });
 
             $('#estado').change(updateHiddenFields);
             $('#id_department').change(updateHiddenFields);

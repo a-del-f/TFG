@@ -15,7 +15,9 @@ class CheckUserJob
      */
     public function handle(Request $request, Closure $next,$job): Response
     {
-        if (! auth()->check() || !in_array(auth()->user()->jobs->name,$job) ) {
+        $job_necesarios = explode(',', $job);
+
+        if (! auth()->check() || !in_array(auth()->user()->jobs->name,$job_necesarios) ) {
             return redirect('/dashboard');
         }
 

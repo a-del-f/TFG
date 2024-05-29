@@ -17,8 +17,8 @@ Route::get('/dashboard', function () {
 
 })->middleware(['auth'])->name('dashboard');
 
-Route::put("redirect",[UserController::class,'change_user'])->name("redirect")->middleware("check.job:Admin");
-Route::delete("redirect",[UserController::class,'eleminar'])->name("redirect")->middleware("check.job:Admin");
+Route::put("redirect",[UserController::class,'change_user'])->name("redirect")->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
+Route::delete("redirect",[UserController::class,'eleminar'])->name("redirect")->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
 
 Route::get('message/details/{id}', [MessageController::class,'details'])->name('message.details');
 

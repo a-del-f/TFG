@@ -92,10 +92,10 @@
                                         $escapedDescription = htmlspecialchars($message->description, ENT_QUOTES, 'UTF-8');
                                     @endphp
                                     <tr>
-
+                                        <td class="px-6 py-4 whitespace-nowrap">
                                         <x-nav-link :href="route('creator_message',$message->id_message)" title="Crear incidencias">
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_message }}</td>
-                                        </x-nav-link>
+                                            {{ $message->id_message }}
+                                        </x-nav-link></td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_incidence }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $department->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $aula->name }}</td>
