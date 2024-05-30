@@ -21,6 +21,7 @@ Route::put("redirect",[UserController::class,'change_user'])->name("redirect")->
 Route::delete("redirect",[UserController::class,'eleminar'])->name("redirect")->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
 
 Route::get('message/details/{id}', [MessageController::class,'details'])->name('message.details');
+Route::get('message/informtion/{id}', [MessageController::class,'information'])->name('message.information');
 
 Route::get('/aulas/{department}', [AulaController::class, 'getAulasByDepartment'])->name('aulas.department');
 

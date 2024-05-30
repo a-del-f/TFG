@@ -96,13 +96,25 @@
                                         <x-nav-link :href="route('creator_message',$message->id_message)" title="Crear incidencias">
                                             {{ $message->id_message }}
                                         </x-nav-link></td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->id_incidence }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->incidences->description }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $department->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $aula->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->user }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $message->users->name." ".$message->users->surname }}</td>
                                         @if(auth()->user()->job != 2)
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $message->estado }}</td>
-                                        @endif
+                                            @if($message->estado=="abierta")
+                                            <td class="px-6 py-4 whitespace-nowrap"> <svg width="100" height="100">
+                                                    <circle cx="50" cy="50" r="25" fill="blue" />
+                                                </svg></td>
+                                            @elseif($message->estado=="en proceso")
+                                                <td class="px-6 py-4 whitespace-nowrap"> <svg width="100" height="100">
+                                                        <circle cx="50" cy="50" r="25" fill="yellow" />
+                                                    </svg></td>
+                                            @elseif($message->estado=="solucionado")
+                                                <td class="px-6 py-4 whitespace-nowrap"> <svg width="100" height="100">
+                                                        <circle cx="50" cy="50" r="25" fill="green" />
+¡                                                    </svg></td>
+                                            @endif
+                                            @endif
                                         @if(auth()->user()->job == 2)
                                             <form method="post" action="{{ route('messages') }}">
                                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -164,96 +176,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <script src="{{ asset('js/changeColor.js') }}" defer></script>
-<!--
+
     <script>
         $(document).ready(function () {
             $('.open-modal-button').click(function () {
                 var messageId = $(this).data('message-id');
-                var messages = []; // Array para almacenar la información de los mensajes
 
-                // Recopilar información de los mensajes con la misma id_message
-                $('.open-modal-button').each(function () {
-                    if ($(this).data('message-id') === messageId) {
-                        messages.push({
-                            fecha: $(this).data('fecha'),
-                            user: $(this).data('user'),
-                            description: $(this).data('description')
-                        });
+                // Realizar una solicitud AJAX para obtener los detalles del mensaje
+                $.ajax({
+                    url: '{{ route("message.information", ":id") }}'.replace(':id', messageId),
+                    type: 'GET',
+                    success: function (response) {
+                        var message = response.message;
+
+                        // Rellenar la ventana modal con la información del mensaje y sus incidencias
+                        $('#modal-tabla tbody').empty();
+                        $('#modal-tabla tbody').append('<tr><td class="px-4">' + message.fecha + '</td><td class="px-4">' + message.user + '</td><td class="px-4"><textarea class="block mt-1 w-full" name="description" required rows="4" readonly>' + message.description + '</textarea></td></tr>');
+
+
+
+                        // Mostrar la ventana modal
+                        $('#modal-tabla').modal();
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.error('Error al obtener los detalles del mensaje:', errorThrown);
                     }
                 });
-
-                // Mostrar la ventana emergente y actualizar el contenido de la tabla con los mensajes filtrados
-                $('#modal-tabla tbody').empty();
-                messages.forEach(function (message) {
-                    $('#modal-tabla tbody').append('<tr ><td class="px-4">' + message.fecha + '</td><td class="px-4">' + message.user + '</td><td class="px-4"><textarea class="block mt-1 w-full" name="description" required rows="4" readonly>' + message.description + '</textarea></td></tr>');
-                });
-                $('#modal-tabla').modal();
             });
         });
-    </script>-->
-    <script>
-        $(document).ready(function() {
-            var initialDepartmentState = $('#id_department').html();
-            var initialAulaState = $('#id_aula').html();
-            var initialIncidenceState = $('#id_incidence').html();
-            var userJob = {{ auth()->user()->job }};
-
-            // Función para actualizar los campos ocultos
-            function updateHiddenFields() {
-                $('#estado-hidden').val($('#estado').val());
-                $('#id_department_hidden').val($('#id_department').val());
-                $('#id_aula_hidden').val($('#id_aula').val());
-                $('#id_incidence_hidden').val($('#id_incidence').val());
-            }
-
-            // Función para manejar la lógica basada en el valor de id_message
-            function handleIdMessageChange() {
-                var messageId = $('#id_message').val();
-                if (messageId) {
-                    $.ajax({
-                        url: '{{ route("message.details", ":id") }}'.replace(':id', messageId),
-                        type: 'GET',
-                        success: function(response) {
-                            $('#id_department').prop('disabled', true).empty();
-                            $('#id_aula').prop('disabled', true).empty();
-                            $('#id_incidence').prop('disabled', true).empty();
-                            $('#estado').prop('disabled', true);
-                            $('#id_department').append('<option value="' + response.department_id + '">' + response.department_name + '</option>');
-                            $('#id_aula').append('<option value="' + response.aula_id + '">' + response.aula_name + '</option>');
-                            $('#id_incidence').append('<option value="' + response.incidence_id + '">' + response.incidence_name + '</option>');
-                            $('#estado').val(response.estado);
-                            updateHiddenFields();
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            console.error('Error al recuperar los datos:', errorThrown);
-                            $('#id_department').prop('disabled', initialDepartmentState).html(initialDepartmentState);
-                            $('#id_aula').prop('disabled', initialAulaState).html(initialAulaState);
-                            updateHiddenFields();
-                        }
-                    });
-                } else {
-                    $('#id_department').prop('disabled', false).html(initialDepartmentState);
-                    $('#id_aula').prop('disabled', false).html(initialAulaState);
-                    $('#id_incidence').prop('disabled', false).html(initialIncidenceState);
-                    $('#estado').prop('disabled',false).val('abierta'); // Establecer el estado en "abierta" cuando messageId es null
-                    updateHiddenFields();
-                }
-            }
-
-            // Ejecutar la función al cargar la página
-            handleIdMessageChange();
-
-            // Habilitar o deshabilitar el campo estado según el trabajo del usuario
-            if (userJob == 3) {
-                $('#estado').prop('disabled', true);
-            }
-
-            // Manejar la actualización de los campos ocultos en cada cambio
-            $('#estado').change(updateHiddenFields);
-            $('#id_department').change(updateHiddenFields);
-            $('#id_aula').change(updateHiddenFields);
-            $('#id_incidence').change(updateHiddenFields);
-        });
     </script>
+
+
 
 </x-app-layout>

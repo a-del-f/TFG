@@ -63,11 +63,11 @@ class MessageController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'description' => ['required', 'string'],
-            'id_incidence' => ['required', 'integer'],
-            'id_department_hidden' => ['required', 'integer'],
-            'id_aula_hidden' => ['required', 'integer'],
-            'estado_hidden' => ['required', 'string'],
+            'description' => [ 'string'],
+            'id_incidence' => [ 'integer'],
+            'id_department_hidden' => [ 'integer'],
+            'id_aula_hidden' => [ 'integer'],
+            'estado_hidden' => [ 'string'],
             'id_message' => ['nullable', 'integer', 'min:1'],
         ]);
 
@@ -77,7 +77,7 @@ class MessageController extends Controller
 
         Message::create([
             'description' => $request->description,
-            'id_incidence' => $request->id_incidence,
+            'id_incidence' => $request->id_incidence_hidden,
             'id_department' => $request->id_department_hidden,
             'id_aula' => $request->id_aula_hidden,
             'user' => auth()->user()->id,
@@ -102,20 +102,38 @@ class MessageController extends Controller
     public function details($id)
     {
         if (auth()->user()->job == 3) {
-            $message = Message::with(['department', 'aula', 'incidences'])->where('id_message', $id)
+            $message = Message::where('id_message', $id)
                 ->where("user", auth()->user()->id)->first();
 
         }else {
-            $message = Message::with(['department', 'aula', 'incidences'])->where("id_message", $id)->first();
+            $message = Message::where("id_message", $id)->first();
         }
         if (!$message) {
             return response()->json(['error' => 'Message not found'], 404);
         }
 
-        $incidence = $message->incidences; // Obtener la relación de incidencias
 
         return response()->json([
             'department_id' => $message->department->id,
+            'department_name' => $message->department->name,
+            'aula_id' => $message->aula->id,
+            'aula_name' => $message->aula->name,
+            'estado' => $message->estado,
+            'incidence_name' =>$message->incidences->description ,
+            'incidence_id' =>  $message->incidences->id ,
+        ]);
+    }
+
+    public function information($id)
+    {
+
+            $message = Message::where("id_message", $id)->get();
+
+
+
+
+        return response()->json([
+            'description' => $message->description->id,
             'department_name' => $message->department->name,
             'aula_id' => $message->aula->id,
             'aula_name' => $message->aula->name,
