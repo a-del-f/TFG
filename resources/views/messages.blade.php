@@ -137,10 +137,11 @@
                                             </form>
                                         @endif
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <button class="open-modal-button" data-message-id="{{ $message->id_message }}" data-description="{{ $escapedDescription }}" data-user="{{ $message->user }}" data-fecha="{{ $message->fecha_creacion }}">
+                                            <button class="open-modal-button" data-message-id="{{ $message->id_message }}">
                                                 Ver tabla
                                             </button>
                                         </td>
+
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -187,15 +188,15 @@
                     url: '{{ route("message.information", ":id") }}'.replace(':id', messageId),
                     type: 'GET',
                     success: function (response) {
-                        var message = response.message;
-
-                        // Rellenar la ventana modal con la información del mensaje y sus incidencias
+                        // Clear previous content
                         $('#modal-tabla tbody').empty();
-                        $('#modal-tabla tbody').append('<tr><td class="px-4">' + message.fecha + '</td><td class="px-4">' + message.user + '</td><td class="px-4"><textarea class="block mt-1 w-full" name="description" required rows="4" readonly>' + message.description + '</textarea></td></tr>');
 
+                        // Process each message in the response
+                        response.forEach(function(message) {
+                            $('#modal-tabla tbody').append('<tr><td class="px-4">' + message.fecha_creacion + '</td><td class="px-4">' + message.user + '</td><td class="px-4"><textarea class="block mt-1 w-full" name="description" required rows="4" readonly>' + message.description + '</textarea></td></tr>');
+                        });
 
-
-                        // Mostrar la ventana modal
+                        // Show the modal
                         $('#modal-tabla').modal();
                     },
                     error: function (xhr, textStatus, errorThrown) {
@@ -205,6 +206,7 @@
             });
         });
     </script>
+
 
 
 

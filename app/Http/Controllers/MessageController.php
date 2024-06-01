@@ -34,22 +34,26 @@ class MessageController extends Controller
 
         $fecha = $request->has('fecha') ? true : false;
         $estado = $request->has('estado') ? true : false;
+
         if ($fecha && $estado) {
-            // Ordenar por fecha y luego por estado
             $query->orderBy('fecha_creacion', 'desc')
                 ->orderByRaw("FIELD(estado, 'abierta', 'en proceso', 'solucionado') DESC");
         } elseif ($fecha) {
-            // Ordenar solo por fecha
             $query->orderBy('fecha_creacion', 'desc');
         } elseif ($estado) {
-            // Ordenar solo por estado
             $query->orderByRaw("FIELD(estado, 'abierta', 'en proceso', 'solucionado') DESC");
         }
-        $users = User::all();
-        $messages = $query->get();
 
-        return view("messages", compact('messages', 'users','messagesByState'));
+        // Agrupar por id_message y obtener solo el primer mensaje de cada grupo
+        $messages = $query->get()->groupBy('id_message')->map(function ($group) {
+            return $group->first(); // Obtener solo el primer mensaje de cada grupo
+        });
+        $users = User::all();
+
+
+        return view("messages", compact('messages', 'users', 'messagesByState'));
     }
+
 
 
     public function create(Request $request, $id=null){
@@ -126,23 +130,21 @@ class MessageController extends Controller
 
     public function information($id)
     {
+        $messages = Message::where("id_message", $id)->get();
 
-            $message = Message::where("id_message", $id)->get();
+        $response = $messages->map(function($message) {
+            return [
+                'description' => $message->description,
+                'aula_id' => $message->aula->id,
+                'incidence_name' => $message->incidences->description,
+                'incidence_id' => $message->incidences->id,
+                'fecha_creacion' => $message->fecha_creacion,
+                'user' => $message->users->name . ' ' . $message->users->surname
+            ];
+        });
 
-
-
-
-        return response()->json([
-            'description' => $message->description->id,
-            'department_name' => $message->department->name,
-            'aula_id' => $message->aula->id,
-            'aula_name' => $message->aula->name,
-            'estado' => $message->estado,
-            'incidence_name' => $incidence->description ,
-            'incidence_id' =>  $incidence->id ,
-        ]);
+        return response()->json($response);
     }
-
 
 
 
