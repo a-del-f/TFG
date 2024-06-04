@@ -8,11 +8,30 @@ use Tests\TestCase;
 
 class ProfileTest extends TestCase
 {
-    use RefreshDatabase;
+
+    /**
+     * Generate random user data.
+     *
+     * @return array
+     */
+    private function generateUserData(): array
+    {
+        $randomNames = ['John', 'Emma', 'Michael', 'Sophia', 'Daniel'];
+        $randomEmails = ['john@example.com', 'emma@example.com', 'michael@example.com', 'sophia@example.com', 'daniel@example.com'];
+
+        return [
+            'name' => $randomNames[array_rand($randomNames)],
+            'email' => $randomEmails[array_rand($randomEmails)],
+            'password' => 'password',
+            'job'=>3,
+        ];
+    }
 
     public function test_profile_page_is_displayed(): void
     {
-        $user = User::factory()->create();
+        $userData = $this->generateUserData();
+
+        $user = User::factory()->create($userData);
 
         $response = $this
             ->actingAs($user)

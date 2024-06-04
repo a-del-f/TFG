@@ -42,7 +42,7 @@ class UserController extends Controller
             'job'=>$request->input("job")]);
 
 
-  return redirect(route('/dashboard', absolute: false));
+  return redirect(route('dashboard', absolute: false));
     }
     public function eleminar(Request $request)
     {

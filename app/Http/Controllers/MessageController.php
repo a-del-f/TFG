@@ -67,11 +67,11 @@ class MessageController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'description' => [ 'string'],
-            'id_incidence' => [ 'integer'],
-            'id_department_hidden' => [ 'integer'],
-            'id_aula_hidden' => [ 'integer'],
-            'estado_hidden' => [ 'string'],
+            'description' => ['required', 'string'],
+            'id_incidence' => [ 'required','integer'],
+            'id_department_hidden' => ['required', 'integer'],
+            'id_aula_hidden' => [ 'required','integer'],
+            'estado_hidden' => [ 'required','string'],
             'id_message' => ['nullable', 'integer', 'min:1'],
         ]);
 

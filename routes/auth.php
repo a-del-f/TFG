@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::post('create_message', [App\Http\Controllers\MessageController::class, 'store'])->name('create_message');
 
     Route::get('departments', [DepartmentController::class,'index'])->name('departments')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
-    Route::post('departments', [DepartmentController::class,'store'])->name('departments')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
+    Route::post('departments', [DepartmentController::class,'store'])->name('departments.store')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
 
 
     Route::get('register', [RegisteredUserController::class, 'create'])

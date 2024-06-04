@@ -7,18 +7,20 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginUserTest extends TestCase
 {
-    use RefreshDatabase;
 
     public function test_user_can_login()
     {
         $user = \App\Models\User::factory()->create([
-            'email' => 'johndoe@example.com',
-            'password' => bcrypt($password = 'password'),
+            'name' => 'Michael',
+            'surname' => 'Johnson',
+            'email' => 'michael.johnson@example.com',
+            'password' => 'password1234',
+            'job'=>1
         ]);
 
         $response = $this->post('/login', [
-            'email' => 'johndoe@example.com',
-            'password' => $password,
+            'email' => 'michael.johnson@example.com',
+            'password' => 'password1234',
         ]);
 
         $response->assertStatus(302);

@@ -48,7 +48,6 @@
                 </div>
 
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                        @section('tabla')
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                 <tr>
@@ -131,7 +130,7 @@
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                         <input type="hidden" name="id_message" value="{{ $message->id_message }}">
                                                         <button type="submit">
-                                                            {{ __('Create') }}
+                                                            {{ __('Cambiar') }}
                                                         </button>
                                                 </td>
                                             </form>

@@ -49,6 +49,7 @@ class RegisteredUserController extends Controller
             'job'=>$request->job
         ]);
 
-        return redirect(route('dashboard', absolute: false));
+        // Redirigir al usuario al panel de control después del registro
+        return redirect()->route('dashboard');
     }
 }

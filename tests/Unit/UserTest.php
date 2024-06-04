@@ -1,19 +1,20 @@
 <?php
 
 namespace Tests\Unit;
-
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
+
 
     public function test_user_has_correct_email()
     {
         $user = User::factory()->create([
-            'email' => 'test@example.com'
+            'name' => 'User ' . rand(1000, 9999),
+            'email' => 'test@example.com',
+            'password' => bcrypt('password123'),
+            'job' => 2,
         ]);
 
         $this->assertEquals('test@example.com', $user->email);
@@ -22,9 +23,12 @@ class UserTest extends TestCase
     public function test_user_can_be_assigned_job_role()
     {
         $user = User::factory()->create([
-            'job' => 'Admin'
+            'name' => 'User ' . rand(1000, 9999),
+            'email' => 'user' . rand(1000, 9999) . '@example.com',
+            'password' => bcrypt('password123'),
+            'job' => 1,
         ]);
 
-        $this->assertEquals('Admin', $user->job);
+        $this->assertEquals('1', $user->job);
     }
 }

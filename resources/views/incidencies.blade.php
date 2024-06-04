@@ -2,8 +2,8 @@
     <x-slot name="header">
         <h2 class="font-bold text-xl text-gray-800 dark:text-gray-200 leading-tight">
 
-            <x-nav-link :href="route('create_incidence')">
-                {{ __('Crear tipo de incidencia') }}
+                   <x-nav-link :href="route('create_incidence')" title="Crear tipo de incidencia">
+                <img src="{{ asset('icons/exclamation-triangle-fill.svg') }}" id="logo-img" style="display: block;" width="30px" alt="Tipos de incidencias">
             </x-nav-link>
         </h2>
     </x-slot>
