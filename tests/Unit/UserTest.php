@@ -13,7 +13,7 @@ class UserTest extends TestCase
         $user = User::factory()->create([
             'name' => 'User ' . rand(1000, 9999),
             'email' => 'test@example.com',
-            'password' => bcrypt('password123'),
+            'password' => 'password123',
             'job' => 2,
         ]);
 
@@ -25,7 +25,7 @@ class UserTest extends TestCase
         $user = User::factory()->create([
             'name' => 'User ' . rand(1000, 9999),
             'email' => 'user' . rand(1000, 9999) . '@example.com',
-            'password' => bcrypt('password123'),
+            'password' => 'password123',
             'job' => 1,
         ]);
 

@@ -36,7 +36,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('aula',[\App\Http\Controllers\AulaController::class,'index'])->name('aula')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
     Route::post('aula',[\App\Http\Controllers\AulaController::class,'store'])->name('aula')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
-    Route::put("messages",[\App\Http\Controllers\MessageController::class,'change_estado'])->name("change_estado")->middleware(\App\Http\Middleware\CheckUserJob::class .":Technician");
+    Route::put("change_estado",[\App\Http\Controllers\MessageController::class,'change_estado'])->name("change_estado")->middleware(\App\Http\Middleware\CheckUserJob::class .":Technician");
 
     Route::get('create_incidence',[\App\Http\Controllers\IncidenceController::class,'create'])->name('create_incidence')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
     Route::post('create_incidence',[\App\Http\Controllers\IncidenceController::class,'store'])->name('create_incidence')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");

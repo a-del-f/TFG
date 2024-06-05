@@ -68,7 +68,7 @@ class MessageController extends Controller
     {
         $request->validate([
             'description' => ['required', 'string'],
-            'id_incidence' => [ 'required','integer'],
+            'id_incidence_hidden' => [ 'required','integer'],
             'id_department_hidden' => ['required', 'integer'],
             'id_aula_hidden' => [ 'required','integer'],
             'estado_hidden' => [ 'required','string'],
@@ -96,8 +96,8 @@ class MessageController extends Controller
 
 
     public function change_estado(Request $request){
-        Message::where('id_message', $request->input('id_message'))->update([
-            'estado' => $request->input('estado')
+        Message::where('id_message', $request->id_message)->update([
+            'estado' => $request->estado
         ]);
 
         return redirect()->route('dashboard');
