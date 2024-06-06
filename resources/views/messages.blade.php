@@ -101,21 +101,27 @@
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $message->users->name." ".$message->users->surname }}</td>
                                         @if(auth()->user()->job != 2)
                                             @if($message->estado=="abierta")
-                                            <td class="px-6 py-4 whitespace-nowrap"> <svg width="100" height="100">
-                                                    <circle cx="50" cy="50" r="25" fill="blue" />
-                                                </svg></td>
+                                                <td class="px-6 py-4 whitespace-nowrap" title="Abierta">
+                                                    <svg width="100" height="100" >
+                                                        <circle cx="50" cy="50" r="25" fill="blue" />
+                                                    </svg>
+                                                </td>
                                             @elseif($message->estado=="en proceso")
-                                                <td class="px-6 py-4 whitespace-nowrap"> <svg width="100" height="100">
-                                                        <circle cx="50" cy="50" r="25" fill="yellow" />
-                                                    </svg></td>
+                                                <td class="px-6 py-4 whitespace-nowrap" title="En proceso">
+                                                    <svg width="100" height="100" >
+                                                        <circle cx="50" cy="50" r="25" fill="yellow"  />
+                                                    </svg>
+                                                </td>
                                             @elseif($message->estado=="solucionado")
-                                                <td class="px-6 py-4 whitespace-nowrap"> <svg width="100" height="100">
-                                                        <circle cx="50" cy="50" r="25" fill="green" />
-¡                                                    </svg></td>
+                                                <td class="px-6 py-4 whitespace-nowrap" title="Solucionado">
+                                                    <svg width="100" height="100" >
+                                                        <circle cx="50" cy="50" r="25" fill="green"  />
+                                                    </svg>
+                                                </td>
                                             @endif
                                             @endif
                                         @if(auth()->user()->job == 2)
-                                            <form method="post" action="{{ route('messages') }}">
+                                            <form method="post" action="{{ route('change_estado') }}">
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     @csrf
                                                     @method("put")

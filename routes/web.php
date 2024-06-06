@@ -7,9 +7,11 @@ use DebugBar\DebugBar;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 Route::get('/', function () {
-    return  redirect()->route("login") ;
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+    return redirect()->route('login');
 });
-
 
 Route::get('/dashboard', function () {
 

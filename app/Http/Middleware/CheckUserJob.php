@@ -13,11 +13,19 @@ class CheckUserJob
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next,$job): Response
+    public function handle(Request $request, Closure $next, ...$jobs): Response
     {
-        $job_necesarios = explode(',', $job);
+        $userRoles = auth()->check() ? auth()->user()->jobs->pluck('name')->toArray() : [];
 
-        if (! auth()->check() || !in_array(auth()->user()->jobs->name,$job_necesarios) ) {
+        $allowed = false;
+        foreach ($jobs as $job) {
+            if (in_array($job, $userRoles)) {
+                $allowed = true;
+                break;
+            }
+        }
+
+        if (!$allowed) {
             return redirect('/dashboard');
         }
 

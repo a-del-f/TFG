@@ -21,10 +21,10 @@ class ProfileTest extends TestCase
 
 // Generar un número aleatorio entre 1 y 1000 para agregar al final del nombre y del correo electrónico
         $randomNumber = mt_rand(1, 1000);
-
+        $randomNumber2 = mt_rand(1, 1000);
         return [
-            'name' => $randomNames[array_rand($randomNames)] . $randomNumber,
-            'email' => $randomEmails[array_rand($randomEmails)] . $randomNumber,
+            'name' => $randomNames[array_rand($randomNames)] . $randomNumber.$randomNumber2,
+            'email' => $randomEmails[array_rand($randomEmails)] . $randomNumber.$randomNumber2,
             'password' => 'password',
             'job' => 3,
         ];
@@ -52,8 +52,8 @@ class ProfileTest extends TestCase
         $response = $this
             ->actingAs($user)
             ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => 'test@example.com',
+                'name' => 'Test User3',
+                'email' => 'test@example3.com',
             ]);
 
         $response
@@ -62,8 +62,8 @@ class ProfileTest extends TestCase
 
         $user->refresh();
 
-        $this->assertSame('Test User', $user->name);
-        $this->assertSame('test@example.com', $user->email);
+        $this->assertSame('Test User3', $user->name);
+        $this->assertSame('test@example3.com', $user->email);
         $this->assertNull($user->email_verified_at);
     }
 

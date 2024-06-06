@@ -9,17 +9,19 @@
                         <img src="{{ asset('img/logo.png') }}" id="logo-img" style="display: block;" width="50px" alt="Descripción de la imagen">
                     </a>
                     <input type="file" id="logo-input" class="hidden">
+                    @if(auth()->user()->job==1)
                     <button id="logo-toggle-button">Editar Logo</button>
+                    @endif
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" id="nav-link">
-                        {{ __('Dashboard') }}
+                        {{ __('Panel') }}
                     </x-nav-link>
                     <input type="text" id="nav-input" class="hidden">
-                    @if(auth()->user()->job==1) @endif
-                    <button id="toggle-button">Editar</button>
+                    @if(auth()->user()->job==1)
+                    <button id="toggle-button">Editar</button>@endif
                 </div>
             </div>
 

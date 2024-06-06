@@ -69,9 +69,7 @@
             var initialIncidenceState = $('#id_incidence').html();
             var userJob = {{ auth()->user()->job }};
 
-            if (userJob == 3) {
-                $('#estado').prop('disabled', true);
-            }
+
 
             function updateHiddenFields() {
                 $('#estado_hidden').val($('#estado').val());
@@ -80,12 +78,9 @@
                 $('#id_incidence_hidden').val($('#id_incidence').val());
             }
 
-
-            // Inicializar los campos ocultos
-            updateHiddenFields();
-
-            $('#id_department').change(function() {
-                var departmentId = $(this).val();
+            // Define la función para cargar las aulas cuando cambia el departamento
+            function cargarAulas() {
+                var departmentId = $('#id_department').val();
                 var $selectAula = $('#id_aula');
                 var originalAulas = $selectAula.html();
                 $selectAula.prop('disabled', true).data('original-html', originalAulas).html('<option value="">Cargando aulas...</option>');
@@ -107,7 +102,13 @@
                         updateHiddenFields();
                     }
                 });
-            });
+            }
+
+            // Llama a la función para cargar las aulas cuando se carga la página
+            cargarAulas();
+
+            // Llama a la función para cargar las aulas cuando cambia la selección del departamento
+            $('#id_department').change(cargarAulas);
 
             var messageId = $('#id_message').val();
 
@@ -132,6 +133,7 @@
                         $('#id_aula').prop('disabled', false).html(initialAulaState);
                         $('#id_incidence').prop('disabled', false).html(initialIncidenceState);
                         $('#estado').prop('disabled', false).val('abierta');
+
                         updateHiddenFields();
                     }
                 });
@@ -140,6 +142,9 @@
                 $('#id_aula').prop('disabled', false).html(initialAulaState);
                 $('#id_incidence').prop('disabled', false).html(initialIncidenceState);
                 $('#estado').prop('disabled', false).val('abierta');
+                if (userJob !=2) {
+                    $('#estado').prop('disabled', true);
+                }
                 updateHiddenFields();
             }
 

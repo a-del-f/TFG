@@ -87,14 +87,6 @@ Sigue estos pasos para configurar e iniciar la aplicación:
 
 ## Comandos Útiles
 
-- **Compilar Recursos Estáticos para Producción**
-
-  Para compilar y optimizar los recursos estáticos de la aplicación para producción:
-
-    ```bash
-    npm run production
-    ```
-
 - **Limpiar Caché**
 
   Para limpiar la caché de la aplicación:

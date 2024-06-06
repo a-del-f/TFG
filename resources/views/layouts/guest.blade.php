@@ -14,7 +14,7 @@
 <body class="font-sans text-gray-900 antialiased">
 <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-400 dark:bg-gray-900">
     @if(!request()->routeIs('login'))
-        <x-nav-link :href="route('dashboard')">
+        <x-nav-link :href="url()->previous()" @click="goBack">
             <img src="{{ asset('img/volver.png') }}" style="display: block;" width="50px"  alt="Descripción de la imagen">
         </x-nav-link>
     @endif
@@ -41,6 +41,16 @@
             $logoImg.attr('src', localStorage.getItem('logoSrc'));
         }
     });
+</script>
+<script>
+    function goBack(event) {
+        event.preventDefault();
+
+        // Verificar si la URL actual contiene la URL base de la aplicación
+        if (window.location.href.includes('{{ config('app.url') }}')) {
+            history.back();
+        }
+    }
 </script>
 </body>
 </html>

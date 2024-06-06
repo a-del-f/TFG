@@ -17,42 +17,35 @@ class MessageController extends Controller
 {
     public function index(Request $request)
     {
-        if (auth()->user()->job == 3) {
-            $query = Message::where("user", auth()->user()->id);
-            $messagesByState = Message::where('user', auth()->user()->id)
-                ->get()
-                ->groupBy('estado')
-                ->map(function ($group) {
-                    return $group->pluck('id_message')->count();
-                });
-        } else {
-            $query = Message::query();
-            $messagesByState = Message::all()->groupBy('estado')->map(function ($group) {
-                return $group->unique('id_message')->count();
-            });
-        }
+        $user = auth()->user();
+        $isUserAdmin = $user->job != 3;
 
-        $fecha = $request->has('fecha') ? true : false;
-        $estado = $request->has('estado') ? true : false;
+        $query = $isUserAdmin ? Message::query() : Message::where("user", $user->id);
 
-        if ($fecha && $estado) {
+        // Obtener el conteo de mensajes por estado
+        $messagesByState = $query->clone()->get()->unique('id_message')->groupBy('estado')->map->count();
+
+        // Ordenar según los filtros aplicados
+        if ($request->has('fecha') && $request->has('estado')) {
             $query->orderBy('fecha_creacion', 'desc')
-                ->orderByRaw("FIELD(estado, 'abierta', 'en proceso', 'solucionado') DESC");
-        } elseif ($fecha) {
+                ->orderByRaw("FIELD(estado, 'abierta', 'en proceso', 'solucionado') ASC");
+        } elseif ($request->has('fecha')) {
             $query->orderBy('fecha_creacion', 'desc');
-        } elseif ($estado) {
-            $query->orderByRaw("FIELD(estado, 'abierta', 'en proceso', 'solucionado') DESC");
+        } elseif ($request->has('estado')) {
+            $query->orderByRaw("FIELD(estado, 'abierta', 'en proceso', 'solucionado') ASC");
         }
 
-        // Agrupar por id_message y obtener solo el primer mensaje de cada grupo
-        $messages = $query->get()->groupBy('id_message')->map(function ($group) {
-            return $group->first(); // Obtener solo el primer mensaje de cada grupo
+        // Obtener solo el primer mensaje de cada grupo, ordenado por fecha de creación (de más antiguo a más nuevo)
+        $messages = $query->orderBy('fecha_creacion', 'asc')->get()->groupBy('id_message')->map(function ($group) {
+            return $group->sortBy('fecha_creacion')->first(); // Obtener solo el primer mensaje de cada grupo, ordenado por fecha de creación
         });
-        $users = User::all();
 
+        $users = User::all();
 
         return view("messages", compact('messages', 'users', 'messagesByState'));
     }
+
+
 
 
 
