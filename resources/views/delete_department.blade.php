@@ -7,11 +7,11 @@
 
         <!-- Name -->
         <div>
-            <x-input-label for="department" :value="__('Department ')" />
+            <x-input-label for="department" :value="__('Departmento')" />
 
-            <select  id="department" class="block mt-1 w-full" type="text" name="department"  >
+            <select  id="department" class="block mt-1 w-full" required type="text" name="department"  >
                 @foreach($departments as $department)
-                <option >{{$department->id." ".$department->name}}</option>
+                <option value="{{$department->id}}">{{$department->id." ".$department->name}}</option>
                 @endforeach
             </select>
             @if(isset($errorMessage))

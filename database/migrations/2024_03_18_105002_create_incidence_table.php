@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create("incidences", function (Blueprint $table){
             $table->id();
-            $table->string("description")->nullable();
+            $table->string("description")->unique();
             $table->timestamps(false);
 
 

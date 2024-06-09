@@ -34,43 +34,41 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('aula',[\App\Http\Controllers\AulaController::class,'index'])->name('aula');
-    Route::post('aula',[\App\Http\Controllers\AulaController::class,'store']);
+    Route::get('aula',[\App\Http\Controllers\AulaController::class,'index'])->name('aula')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
+    Route::post('aula',[\App\Http\Controllers\AulaController::class,'store'])->name('aula')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
+    Route::put("change_estado",[\App\Http\Controllers\MessageController::class,'change_estado'])->name("change_estado")->middleware(\App\Http\Middleware\CheckUserJob::class .":Technician");
+
+    Route::get('create_incidence',[\App\Http\Controllers\IncidenceController::class,'create'])->name('create_incidence')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
+    Route::post('create_incidence',[\App\Http\Controllers\IncidenceController::class,'store'])->name('create_incidence')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
 
 
-    Route::get('incidences',[\App\Http\Controllers\IncidenceController::class,'index'])->name('incidences');
+    Route::get('incidences',[\App\Http\Controllers\IncidenceController::class,'index'])->name('incidences')->middleware(\App\Http\Middleware\CheckUserJob::class.":Admin,Technician");
+
     Route::get('messages',[\App\Http\Controllers\MessageController::class,'index'])->name('messages');
-    Route::get('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete_index'])->name('delete_department');
-    Route::post('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete']);
+
+    Route::get('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete_index'])->name('delete_department')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
+    Route::post('delete_department',[\App\Http\Controllers\DepartmentController::class,'delete'])->name('delete_department')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
 
 
-    Route::get('create_message',[\App\Http\Controllers\MessageController::class,'create'])->name('create_message');
-    Route::post('create_message',[\App\Http\Controllers\MessageController::class,'store']);
+    Route::get('create_message/{id?}', [\App\Http\Controllers\MessageController::class, 'create'])->name('creator_message');
+    Route::post('create_message', [App\Http\Controllers\MessageController::class, 'store'])->name('create_message');
 
-    Route::get('departments', [DepartmentController::class,'index'])->name('departments');
-    Route::post('departments', [DepartmentController::class,'store']);
+    Route::get('departments', [DepartmentController::class,'index'])->name('departments')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
+    Route::post('departments', [DepartmentController::class,'store'])->name('departments.store')->middleware(\App\Http\Middleware\CheckUserJob::class .":Admin");
 
 
     Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
+        ->name('register')->middleware(\App\Http\Middleware\CheckUserJob::class . ':Admin');
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
-    Route::get('verify-email', EmailVerificationPromptController::class)
-                ->name('verification.notice');
-
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-                ->middleware(['signed', 'throttle:6,1'])
-                ->name('verification.verify');
 
     Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-                ->middleware('throttle:6,1')
-                ->name('verification.send');
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
 
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-                ->name('password.confirm');
 
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
+
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 

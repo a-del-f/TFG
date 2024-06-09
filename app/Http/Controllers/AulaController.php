@@ -6,7 +6,7 @@ use App\Models\Aula;
 use App\Models\Department;
 use Illuminate\Http\Request;
 
-class AulaController
+class AulaController extends Controller
 {
     public function index()
     {

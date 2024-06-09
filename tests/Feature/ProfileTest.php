@@ -8,11 +8,34 @@ use Tests\TestCase;
 
 class ProfileTest extends TestCase
 {
-    use RefreshDatabase;
+
+    /**
+     * Generate random user data.
+     *
+     * @return array
+     */
+    private function generateUserData(): array
+    {
+        $randomNames = ['John', 'Emma', 'Michael', 'Sophia', 'Daniel'];
+        $randomEmails = ['john@example.com', 'emma@example.com', 'michael@example.com', 'sophia@example.com', 'daniel@example.com'];
+
+// Generar un número aleatorio entre 1 y 1000 para agregar al final del nombre y del correo electrónico
+        $randomNumber = mt_rand(1, 1000);
+        $randomNumber2 = mt_rand(1, 1000);
+        return [
+            'name' => $randomNames[array_rand($randomNames)] . $randomNumber.$randomNumber2,
+            'email' => $randomEmails[array_rand($randomEmails)] . $randomNumber.$randomNumber2,
+            'password' => 'password',
+            'job' => 3,
+        ];
+
+    }
 
     public function test_profile_page_is_displayed(): void
     {
-        $user = User::factory()->create();
+        $userData = $this->generateUserData();
+
+        $user = User::factory()->create($userData);
 
         $response = $this
             ->actingAs($user)
@@ -22,14 +45,15 @@ class ProfileTest extends TestCase
     }
 
     public function test_profile_information_can_be_updated(): void
-    {
-        $user = User::factory()->create();
+    {        $userData = $this->generateUserData();
+
+        $user = User::factory()->create($userData);
 
         $response = $this
             ->actingAs($user)
             ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => 'test@example.com',
+                'name' => 'Test User3',
+                'email' => 'test@example3.com',
             ]);
 
         $response
@@ -38,33 +62,18 @@ class ProfileTest extends TestCase
 
         $user->refresh();
 
-        $this->assertSame('Test User', $user->name);
-        $this->assertSame('test@example.com', $user->email);
+        $this->assertSame('Test User3', $user->name);
+        $this->assertSame('test@example3.com', $user->email);
         $this->assertNull($user->email_verified_at);
     }
 
-    public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
-    {
-        $user = User::factory()->create();
 
-        $response = $this
-            ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => $user->email,
-            ]);
-
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
-
-        $this->assertNotNull($user->refresh()->email_verified_at);
-    }
 
     public function test_user_can_delete_their_account(): void
     {
-        $user = User::factory()->create();
+        $userData = $this->generateUserData();
 
+        $user = User::factory()->create($userData);
         $response = $this
             ->actingAs($user)
             ->delete('/profile', [
@@ -81,8 +90,9 @@ class ProfileTest extends TestCase
 
     public function test_correct_password_must_be_provided_to_delete_account(): void
     {
-        $user = User::factory()->create();
+        $userData = $this->generateUserData();
 
+        $user = User::factory()->create($userData);
         $response = $this
             ->actingAs($user)
             ->from('/profile')

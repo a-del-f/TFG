@@ -11,35 +11,29 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::simplePaginate(1);
+        $users = User::simplePaginate(5);
 
         $job = auth()->user()->job;
 
-        $messages=Message::all();
+        if (auth()->user()->job == 3) {
+            $messages = Message::where("user", auth()->user()->id)->get();
+        } else {
+            $messages = Message::all();
+        }
 
 
     $functions=Job::all();
         if ($job == 1) {
             return view('super-admin',compact( 'users','functions','messages'));  }
         elseif ($job == 2) {
-            return view('admin',compact( 'users','functions','messages'));
-        } elseif ($job == 3) {
-            return view('tech',compact( 'users','functions','messages'));
-        } else {
-            return view('dashboard',compact( 'users','functions'));
+            return redirect()->route('messages');
+        }
+            else {
+                return redirect()->route('messages');
         }
 
     }
-public function redirect(Request $request)
-{
-if($request->input("btn")){
-    $this->change_user($request);
-}
-if($request->input("eleminar")){
 
-    $this->eleminar($request);
-}
-}
     public function change_user(Request $request)
     {
         app("debugbar")->info($request);
@@ -48,7 +42,7 @@ if($request->input("eleminar")){
             'job'=>$request->input("job")]);
 
 
-  return redirect(route('/dashboard', absolute: false));
+  return redirect(route('dashboard', absolute: false));
     }
     public function eleminar(Request $request)
     {

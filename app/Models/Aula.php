@@ -9,11 +9,7 @@ class Aula extends Model
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+
     protected $fillable = [
         'id_department',
         'name'
@@ -21,17 +17,10 @@ class Aula extends Model
 
     ];
     protected $table = 'aula';
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'id_department');
+    }
 
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
 }

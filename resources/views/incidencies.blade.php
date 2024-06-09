@@ -1,8 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-
-
+@if(auth()->user()->job==1)
+                <x-nav-link :href="route('create_incidence')" title="Crear tipo de incidencia">
+                    <img src="{{ asset('icons/exclamation-triangle-fill.svg') }}" id="logo-img" style="display: block;"
+                         width="30px" alt="Tipos de incidencias">
+                </x-nav-link>
+            @endif
         </h2>
     </x-slot>
 
@@ -19,10 +23,7 @@
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 ID
                             </th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Nombre
-                            </th>
+
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Descripcion
@@ -37,7 +38,6 @@
                                 @csrf
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $incidencias[$i]->id }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $incidencias[$i]->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $incidencias[$i]->description }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
 

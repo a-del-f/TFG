@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger("id_department")->unsigned();
             $table->string("name");
             $table->timestamps(false);
-            $table->foreign("id_department")->references("id")->on("department");
+            $table->foreign("id_department")->references("id")->on("department")->onDelete('cascade');
 
 
         });
@@ -27,7 +27,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('aula');
 
     }
 };

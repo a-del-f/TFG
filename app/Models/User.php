@@ -16,8 +16,13 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $table = 'users';
+    public $timestamps = false;
+
     protected $fillable = [
         'name',
+        'surname',
         'email',
         'password',
         'job'
@@ -32,7 +37,10 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    public function jobs()
+    {
+        return $this->belongsTo(Job::class, 'job');
+    }
     /**
      * Get the attributes that should be cast.
      *
@@ -41,7 +49,6 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
